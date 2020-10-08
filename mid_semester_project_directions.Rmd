@@ -1,0 +1,67 @@
+---
+title: "Mid Semester Project"
+author: "Mara Alexeev"
+date: "10/8/2020"
+output: html_document
+---
+# Project: Database Design
+Overview
+In this project, you will design a database system to store data for a problem that’s of interest to you. You’ll submit a written assignment and give an in-class presentation of 7-8 minutes. Make sure to cover each of the parts in both your write-up and presentation.
+
+## Part 1: Problem Definition
+Your first task is to pick a problem. You can choose almost any problem, but please don’t pick an EHR or a course management system, since we covered these examples in class; also, don’t pick something you’ve built before – you’ll need to start from scratch for this assignment. It’s probably easiest if you pick a problem in biology or medicine, but it’s not required. The main thing is to pick a problem that you know well, and perhaps something that you might use in the future.
+
+## Part 2: Requirements Gathering
+In this part, you should begin to scope out your solution to the problem. 
+
+What kinds of people will use your database? 
+
+What will they do with it? 
+
+What information will they need to store? How often will they change it?
+
+What requirements will they have for analysis?
+
+In this part, avoid thinking too much about the database design. Instead, focus on what’s needed in human terms.
+
+It’s sometimes helpful to write user stories – brief descriptions of how people will interact with your system.
+
+## Part 3: Database Design
+Now it’s time to take your requirements and turn them into a database. You’ll need to give a detailed description of all the tables, columns and relationships in your database. 
+
+Particularly, pay attention to:
+
+• What tables will you use?
+
+• What columns will each table contain? What types (e.g. number, string, etc.) will they have?
+
+• What keys will you use?
+
+• How do the tables relate, and what are the primary and foreign keys will you use?
+
+• Where will you put indexes?
+
+• Will you create any views?
+
+Please include a diagram of your database – you can use a standard entity-relationship diagram, or one of your own choosing, but try to reflect as many of the considerations listed above in your diagram. Also, please keep normalization in mind as you design your database.
+
+## Part 4: Ontologies and Terminologies
+It’s almost certain that some of the fields in your database would be best-populated by terms from an ontology or terminology (and if you can’t, you should pick a different problem or expand the scope). Maybe you could list diagnoses by SNOMED or ICD-9 code, labs by LOINC code or books by ISBN code. For each terminology or ontology that you use, give a description of it and how you’ll use it, including:
+
+• When, where and how you will use the terminology or ontology in your database?
+
+• Who develops the terminology or ontology?
+
+• How is it maintained?
+
+• How well does it meet Cimino’s desiderata?
+
+• Why did you pick it?
+
+• Were there alternatives?
+
+## Part 5: Analytics
+Now that you’ve designed your database, think of some questions you and your users might want to ask about the content. Describe at least three questions and write SQL queries that would work again your database to answer the questions. Please choose questions that are interesting and not trivial – the best ones are likely to involve more than one table.
+
+## Bonus: Build it
+For extra credit, build the system you proposed in your choice of relational database management systems (e.g. Microsoft Access, MySQL, SQLite, Oracle, Microsoft SQL Server, PostgreSQL), populate it with some data and run your queries. You can earn from 5 points (out of 100) for building a basic system with some test data to 20 points (out of 100) for a complete database system with a web front end, populated with real data 

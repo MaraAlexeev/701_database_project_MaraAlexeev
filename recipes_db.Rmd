@@ -1,0 +1,45 @@
+---
+title: "recipes"
+author: "Mara Alexeev"
+date: "10/8/2020"
+output: html_document
+---
+```{r libraries, message=FALSE, warning=FALSE}
+
+library(tidyverse)
+library(RSQLite)
+
+```
+
+
+# Create Basic Dataframes for recipes
+```{r}
+recipes <- tibble("id_recipe" = c("PBJ sandwich", "Srambled eggs"), "source"= 1:2, "cusine" = c(1, 2))
+
+sources <- tibble("id_source" = 1:2, "source_name" = c("Grandma Doris", "Grandma Tamara"))
+
+cuisines <- tibble("id_cuisine" = 1:2, "cuisine_name" = c("American", "Russian"))
+```
+
+# Create .db files with RSQLite
+```{r}
+conn <- dbConnect(RSQLite::SQLite(), "recipesDB.db")
+dbWriteTable(conn, "recipes", recipes, overwrite = TRUE)
+dbWriteTable(conn, "sources", sources, overwrite = TRUE)
+dbWriteTable(conn, "cuisine", cuisine, overwrite = TRUE)
+dbListTables(conn)
+```
+# Test simple queries with RSQLite
+```{r}
+dbGetQuery(conn, "SELECT * FROM recipes LIMIT 10")
+dbGetQuery(conn, "SELECT * FROM sources LIMIT 10")
+dbGetQuery(conn, "SELECT * FROM cuisine LIMIT 10")
+```
+# Test joins
+```{r}
+dbGetQuery(conn,"SELECT * 
+                 FROM recipes
+                 LEFT JOIN sources ON source = id_source
+                 WHERE source = 1")
+```
+
