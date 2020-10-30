@@ -4,42 +4,437 @@ author: "Mara Alexeev"
 date: "10/8/2020"
 output: html_document
 ---
+# Part 1: Problem Definition
+I love to cook. However, recipe storage is a bit complicated because recipes I use come from so many different sources: cookbooks, emails, online, note cards, printed papers, my memory! For several years, I have wanted to come up with a recipe storage system that can harmonize my recipes and also give me some functionality that is otherwise not present with many formats--scaling, changing units, etc--and that I could eventually turn into a website that I can share with family and friends or just have for myself if traveling. 
+
+Cooking is one thing, but shopping and menu planning are actually the bigger issues for me. Making a single recipe isn't that difficult, but when you start planning a week's worth of cooking or a multi-course meal, the pain points of collecting needed information from so many recipes becomes unwieldy (how many red onions and how many yellow onions do I need to make it through the week?!?)
+
+I actually wrote a [blog post](https://www.maraalexeev.com/2020/04/12/recipe-storage/) about the topic back in April 2020. 
+
+# Part 2: Requirements Gathering
+
+## Users
+
+I imagine my users will be myself, my husband, my brothers, and several close friends. I want it to be available for use to others beyond this circle, but with read-only capacity. 
+
+If the database works very well, I might also offer it to a cousin who runs a resturant to see if he would find a verison for himself to be helpful. 
+
+## Uses
+
+1. Store recipes
+2. Read recipes
+3. Create menus
+4. Aggregate shopping lists from selected recipes
+5. Search for recipes by different characteristics
+  + Ingredients (eg what's in season, what they have at home already)
+  + Holiday favorites
+  + Dietary restrictions (eg vegetarian, vegan)
+6. Rate recipes
+7. Find recipes that pair well with others
+
+## Information Storage
+
+1. Full instructions on how to make the recipe
+2. Ingredients needed
+3. Equipment needed
+4. Ratings from different people over time
+5. General information about ingredients
+  + When they are in season
+  + Where they are typically found in the grocery store
+  + What form are they needed for the recipe (eg cubed, diced)
+
+## Updates to database
+
+I anticipate that people will frequently add to recipes to the database but that the tables themselves will not need to be frequently updated. 
+
+## Analytic needs
+
+Several analytic tools I have considered:
+
+1. Looking up recipes that are suitable for guests with different dietary restrictions
+2. Looking up some ones rating of a dish before making it again for them
+3. Reviewing the notes of people giving ratings to see if there were suggestions for modifications or pairings
+4. Making weekly meal planning simpler!
+  + What recipes have common features that could allow me to minimize my time in the kitchen? (Eg making more of a particular thing that could be used in multiple meals for the week.)
+
+# Part 3: Database Design
+
 ```{r libraries, message=FALSE, warning=FALSE}
 
 library(tidyverse)
 library(RSQLite)
-
+library(datamodelr)
+library(yaml)
+library(DiagrammeR)
 ```
 
-
-# Create Basic Dataframes for recipes
 ```{r}
-recipes <- tibble("id_recipe" = c("PBJ sandwich", "Srambled eggs"), "source"= 1:2, "cusine" = c(1, 2))
+dm <- dm_read_yaml("./recipe_db.yml")
+graph <- dm_create_graph(dm, rankdir = "BT")
+database_layout <- dm_render_graph(graph)
+database_layout
 
-sources <- tibble("id_source" = 1:2, "source_name" = c("Grandma Doris", "Grandma Tamara"))
-
-cuisines <- tibble("id_cuisine" = 1:2, "cuisine_name" = c("American", "Russian"))
 ```
+
+
+# Create tibbles for all tables in database
+
+## Metadata section
+
+### Table: recipe_meta 
+```{r}
+recipe_meta <- tibble(
+  recipe_id = 1:2,
+  recipe_name = c("PBJ sandwich", "Srambled eggs"), 
+  attribution_id = 1:2, 
+  url = c(NA, NA),
+  notes = c("Test entry", "Another test"),
+  active_time = c(2, 10),
+  passive_time = c(0, 2),
+  estimated_servings = c(1, NA)
+  )
+
+recipe_meta 
+```
+
+### Table: menu
+```{r}
+menu <- tibble(
+  recipe_id = 1:2,
+  menu_id= 1:2
+)
+
+menu
+```
+
+### Table: menu_names
+```{r}
+menu_names <- tibble(
+  menu_id = 1:3,
+  menu_name = c("Thanksgiving 2020", "New Years Eve 2019", "Birthday Brunch June 2020")
+ )
+
+menu_names
+```
+
+
+### Table: courses
+```{r}
+courses <- tibble(
+  recipe_id = 1:2,
+  course_id = 1:2
+)
+
+courses
+```
+
+### Table: course_mapping
+```{r}
+
+course_mapping <- tibble(
+  course_id = 1:2,
+  course_name = c("casual lunch", "breakfast")
+  
+)
+
+course_mapping 
+```
+
+## Feedback section
+
+### Table: users
+```{r}
+users <- tibble(
+  user_id = 1:6,
+  name = NA,
+  info = NA
+)
+
+users 
+```
+
+### Table: difficulty
+```{r}
+difficulty <- tibble(
+  difficulty_rating = 1:5,
+  description = c("Very Easy", "Easy", "Moderately difficult", "Difficult", "Very Complex")
+)
+
+difficulty 
+```
+
+### Table: users_notes
+```{r}
+users_notes <- tibble(
+  user_id = 1:2,
+  recipe_id = 1:2,
+  date = c(20201023, 20200903),
+  note = c("My experience was...", "I enjoyed..."),
+  proxy_note = as.logical(TRUE, FALSE),
+  proxy_id = 3:4
+)
+
+users_notes
+```
+
+### Table: ratings
+```{r}
+ratings <- tibble(
+  recipe_id = 1:2,
+  rating = 1:2,
+  rater_id = 1:2,
+  difficulty_rating = c(1, NA),
+  date = lubridate::ymd(c(20201023, 20200903)),
+  notes = c("Terrible", "Would like to try with rye bread toast.")
+)
+
+ratings
+```
+
+
+## Ingredients section
+
+### Table: ingredients_used
+```{r}
+ingredients_used <- tibble(
+  recipe_id = 1,
+  ingredient_id = 1:4,
+  step_number = 1:4,
+  quantity = c(2, 3, 4, 5),
+  unit = as_factor(c("slices", "cups", "grams", "tablespoons")),
+  preparation = as_factor(c("chopped", "diced", "sliced", "minced")),
+  notes = NA
+)
+
+ingredients_used
+```
+
+### Table: ingredients_info
+```{r}
+ingredients_info <- tibble(
+  ingredient_id = 1,
+  name = "Carrot",
+  season_att = as_factor("Fall"),
+  category = as_factor("Vegetable"),
+  store_location = as_factor("Produce"),
+  ontology_info = "http://purl.obolibrary.org/obo/FOODON_00001687"
+)
+
+ingredients_info
+```
+
+## Collections section
+
+### Table: tags
+```{r}
+tags <- tibble(
+  recipe_id = 1:2,
+  tag_id = 1:2)
+
+tags
+```
+
+### Table: tag_names
+```{r}
+tag_names <- tibble(
+  tag_id = 1:4,
+  tag_description = as_factor(c("Christmas", "New Years", "Packed Lunch", "Baby Food"))
+)
+
+tag_names
+```
+
+## Tools and Techniques section
+
+### Table: tools_needed 
+```{r}
+tools_needed <- tibble(
+  recipe_id = 1,
+  tool_id = 1
+)
+
+tools_needed
+```
+
+### Table: tool_info 
+```{r}
+tool_info <- tibble(
+  tool_id = 1:2,
+  name = as_factor(c("sous vide", "large pot")),
+  cost = c(100, 20),
+  alternative = c("water bath", NA),
+  notes = NA
+)
+
+tool_info 
+```
+
+### Table: techniques_used
+```{r}
+techniques_used <- tibble(
+  recipe_id = 1, 
+  tech_id = c(1)
+)
+
+techniques_used
+```
+
+
+### Table: tech_info
+```{r}
+tech_info <- tibble(
+  tech_id = 1,
+  name = "Kneading", 
+  notes = "As alternative can use bread setting on mixer."
+)
+
+tech_info
+```
+
+## Recipe Details section
+
+### Table: steps
+```{r}
+steps <- tibble(
+  recipe_id = 1,
+  step_number = 1,
+  directions = "Place holder"
+)
+
+steps
+```
+
+### Table: variations
+```{r}
+variations <- tibble(
+  recipe_id = 1,
+  variation_number = 1, 
+  variation_text = "Instead of peanut butter try almond butter. It's worse."
+)
+variations
+```
+### Table: tips
+```{r}
+tips <- tibble(
+  recipe_id = 1,
+  tip_number = 1, 
+  tip_text = "Can freeze overnight and will thaw by lunch if put in lunchbag."
+)
+
+tips
+```
+
+### Table: dietary_modifications
+```{r}
+dietary_modifications <- tibble(
+  recipe_id = 1, 
+  modification_id = 1
+)
+
+dietary_modifications
+```
+
+
+### Table: dietary_modifications_id
+```{r}
+dietary_modifications_id <- tibble(
+   modification_id = 1,
+   mod_id_text = "Vegan Friendly"
+)
+
+dietary_modifications_id
+```
+
+### Table: abbr_recipes
+```{r}
+abbr_recipes <- tibble(
+  recipe_id = 1,
+  step_number = 1,
+  abbr_text = "Place holder on abbreviated recipe step."
+)
+
+abbr_recipes
+```
+
+### Table: raw_recipe_input
+```{r}
+raw_recipe_input <- tibble(
+  recipe_name = "Grandma Donna's Hot Fudge Sauce",
+  recipe_id = 3,
+  input_text = "Place holder"
+)
+
+raw_recipe_input
+```
+
 
 # Create .db files with RSQLite
 ```{r}
-conn <- dbConnect(RSQLite::SQLite(), "recipesDB.db")
-dbWriteTable(conn, "recipes", recipes, overwrite = TRUE)
-dbWriteTable(conn, "sources", sources, overwrite = TRUE)
-dbWriteTable(conn, "cuisine", cuisine, overwrite = TRUE)
-dbListTables(conn)
+con_recipe_db <- dbConnect(RSQLite::SQLite(), "recipesDB.db")
+dbWriteTable(con_recipe_db, "recipe_meta", recipe_meta, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "users", users, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "users_notes", users_notes, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "difficulty", difficulty, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "ratings", ratings, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "menu", menu, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "menu_names", menu_names, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "courses", courses, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "course_mapping", course_mapping, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "steps", steps, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "dietary_modifications", dietary_modifications, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "dietary_modifications_id", dietary_modifications_id, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "abbr_recipes", abbr_recipes, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "variations", variations, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "tips", tips, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "raw_recipe_input", raw_recipe_input, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "tags", tags, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "tag_names", tag_names, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "tools_needed", tools_needed, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "tool_info", tool_info, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "techniques_used", techniques_used, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "tech_info", tech_info, overwrite = TRUE)
+
+
+
+dbListTables(con_recipe_db)
 ```
 # Test simple queries with RSQLite
 ```{r}
-dbGetQuery(conn, "SELECT * FROM recipes LIMIT 10")
-dbGetQuery(conn, "SELECT * FROM sources LIMIT 10")
-dbGetQuery(conn, "SELECT * FROM cuisine LIMIT 10")
+dbGetQuery(con_recipe_db, "SELECT * FROM recipe_meta LIMIT 10")
+dbGetQuery(con_recipe_db, "SELECT * FROM variations LIMIT 10")
+dbGetQuery(con_recipe_db, "SELECT * FROM tag_names LIMIT 10")
 ```
-# Test joins
+# Part 4: Ontologies and Terminologies
+
+# Part 5: Analytics
+
+## Question 1
+
+Imagine I am feeling excited about celebrating New Years, but I am stuck in a rut of doing the same recipes for the past few years. 
+
+### Part A
+
+I could search the database to find ingredients that are in season around that time of the year and see if any recipes using them sound good.
+
+### Part B
+
+I am traveling and staying at rental house, but I am going to host a dinner for New Years. I have a restricted number of kitchen equipment, so I want to only consider recipes in my "party" tag that have the equipment i have access to. 
 ```{r}
 dbGetQuery(conn,"SELECT * 
                  FROM recipes
                  LEFT JOIN sources ON source = id_source
                  WHERE source = 1")
+```
+
+### Question 2
+
+My parents are coming to visit and but my vegan friend is also coming to dinner. I want to find dishes that my father has rated highly, but are also vegan friendly, so I don't have to make two separate dinners. 
+
+# Bonus: Build it!
+
+
+## Details
+```{r}
+sessionInfo()
 ```
 

@@ -1,0 +1,14 @@
+---
+title: 'BMI 701 Project: Database Design'
+author: "Mara Alexeev"
+date: "10/26/2020"
+output: html_document
+---
+
+
+
+```{r session_info}
+sessionInfo()
+
+```
+

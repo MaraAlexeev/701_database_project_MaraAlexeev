@@ -1,0 +1,193 @@
+# data model segments
+
+- segment: &meta Metadata
+- segment: &feedback Feedback
+- segment: &recipe_details Recipe details
+- segment: &ingredients Ingredients
+- segment: &tools Tools and Techniques
+- segment: &collections Collections
+
+# Tables and columns
+
+- table: recipe_meta
+  segment: *meta
+  columns:
+    recipe_id: {key: yes}
+    recipe_name:
+    attribution_id: {key: yes, ref: users}
+    url:
+    notes:
+    active_time:
+    passive_time:
+    estimated_servings:
+
+- table: menu
+  segment: *meta
+  columns:
+    recipe_id: {key: yes, ref: recipe_meta}
+    menu_id:
+
+- table: ratings
+  segment: *feedback
+  columns:
+    recipe_id: {key: yes, ref: recipe_meta}
+    rating:
+    rater_id: {key: yes, ref: users}
+    difficulty_rating: {key: yes, ref: difficulty}
+    date:
+    notes:
+
+- table: courses
+  segment: *meta
+  columns:
+    recipe_id: {key: yes, ref: recipe_meta}
+    course_id:
+
+- table: menu_names
+  segment: *meta
+  columns:
+    menu_id: {key: yes, ref: menu}
+    menu_name:
+
+
+- table: tags
+  segment: *collections
+  columns:
+    recipe_id: {key: yes, ref: recipe_meta}
+    tag_id:
+
+
+- table: tag_names
+  segment: *collections
+  columns:
+    tag_id: {key: yes, ref: tags}
+    tag_description:
+
+- table: users
+  segment: *feedback
+  columns:
+    user_id: {key: yes}
+    name:
+    info:
+
+- table: users_notes
+  segment: *feedback
+  columns:
+    user_id: {key: yes, ref: users}
+    recipe_id: {key: yes, ref: recipe_meta}
+    date:
+    note:
+    proxy_note:
+    proxy_id: {key: yes, ref: users}
+
+- table: difficulty
+  segment: *feedback
+  columns:
+    difficulty_rating: {key: yes}
+    description:
+
+- table: raw_recipe_input
+  segment: *recipe_details
+  display: accent2
+  columns:
+    recipe_name: {key: yes, ref: recipe_meta}
+    recipe_id: {key: yes, ref: recipe_meta}
+    input_text:
+
+
+- table: steps
+  segment: *recipe_details
+  columns:
+    recipe_id: {key: yes, ref: recipe_meta}
+    step_number:
+    directions:
+
+- table: tips
+  segment: *recipe_details
+  columns:
+    recipe_id: {key: yes, ref: steps}
+    tip_number:
+    tip_text:
+
+- table: variations
+  segment: *recipe_details
+  columns:
+    recipe_id: {key: yes, ref: steps}
+    variation_number:
+    variation_text:
+
+- table: dietary_modifications
+  segment: *recipe_details
+  columns:
+    recipe_id: {key: yes, ref: steps}
+    modification_id:
+
+- table: dietary_modifications_id
+  segment: *recipe_details
+  columns:
+    modification_id: {key: yes, ref: dietary_modifications}
+    mod_id_text:
+
+- table: ingredients_used
+  segment: *ingredients
+  columns:
+    recipe_id: {key: yes, ref: recipe_meta}
+    ingredient_id:
+    step_number:
+    quantity:
+    unit:
+    preparation:
+
+- table: abbr_recipes
+  segment: *recipe_details
+  columns:
+    recipe_id: {key: yes, ref: steps}
+    step_number:
+    text:
+
+- table: course_mapping
+  segment: *meta
+  columns:
+    course_id: {key: yes, ref: courses}
+    course_name:
+
+- table: ingredients_info
+  segment: *ingredients
+  display: accent1
+  columns:
+    ingredient_id: {key: yes, ref: ingredients_used}
+    name:
+    season_att:
+    category:
+    store_location:
+    ontology_info:
+
+- table: tool_info
+  segment: *tools
+  columns:
+    tool_id: {key: yes, ref: tools_needed}
+    name:
+    cost:
+    alternative:
+    notes:
+
+- table: techniques_used
+  segment: *tools
+  columns:
+    recipe_id: {key: yes, ref: recipe_meta}
+    tech_id:
+
+- table: tech_info
+  segment: *tools
+  columns:
+    tech_id: {key: yes, ref: techniques_used}
+    name:
+    notes:
+
+- table: tools_needed
+  segment: *tools
+  columns:
+    recipe_id: {key: yes, ref: recipe_meta}
+    tool_id:
+
+

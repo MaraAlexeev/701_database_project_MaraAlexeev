@@ -1,0 +1,26 @@
+---
+title: "Test out yaml"
+author: "Mara Alexeev"
+date: "10/12/2020"
+output:
+  html_document: default
+  pdf_document: default
+---
+```{r warning = FALSE}
+library(datamodelr)
+library(yaml)
+library(DiagrammeR)
+```
+
+
+```{r}
+
+
+dm <- dm_read_yaml("./recipe_db.yml")
+graph <- dm_create_graph(dm, rankdir = "BT")
+database_layout <- dm_render_graph(graph)
+database_layout
+
+```
+
+
