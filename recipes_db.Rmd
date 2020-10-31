@@ -82,12 +82,28 @@ database_layout
 ## Metadata section
 
 ### Table: recipe_meta 
+
+This table contains the high level information about the recipe. Every recipe should only have a single entry in this form. 
+
+The `recipe_id` column contains an numeric id that uniquely idenitifies the recipe. The number has no sematic meaning; it is assigned as the recipe is added to the database to the next available integer value. I have considered that a recipe with important variations could be nested under the value. For example, a pasta dish could be 1 and then variations of it could be 1.1, 1.2, etc. 
+
+The `recipe_name` is the string of text that the recipe is called that would be referred to by people in speech or likely when searching for a recipe.
+
+The `attribution_id` is a numeric value assigned to the source of the recipe. 
+
+The `source` is a string that specifies the location if applicable that the recipe can be found at. Examples might be a URL or a book and page number. 
+
+The `notes` column is where text about the recipe is contained. This might be a history of where the recipe came from or what inspired it, but it does not contain the recipe itself. 
+
+The `active_time` and `passive_time` are time durations that the recipe takes. I had initially thought that this should be stored in minutes, but some recipes have very long passive times, over days, so it might be best to store this in a format that is amenable to being converted to a human friendly display, so that if a recipe has a 3 day passive period it says 3 days not 4320 minutes.
+
+The `estimated_servings` column has the number of servings for the basic recipe. In the shiny app I am building, this will adjust based on the scaling factor input by the user.
 ```{r}
 recipe_meta <- tibble(
   recipe_id = 1:2,
   recipe_name = c("PBJ sandwich", "Srambled eggs"), 
   attribution_id = 1:2, 
-  url = c(NA, NA),
+  source = c(NA, NA),
   notes = c("Test entry", "Another test"),
   active_time = c(2, 10),
   passive_time = c(0, 2),
@@ -98,6 +114,11 @@ recipe_meta
 ```
 
 ### Table: menu
+
+The `menu` table assign recipes to different menus. A recipe can be assigned many different menus and menus can have many different recipes. Examples of a menu can be a specific event, such as "Mara's 30th Birthday Party" or "New Year's Eve 2018", or to a generic event such as "Brunch" or "Picnic". 
+
+The `recipe_id` links to the recipes and the `menu_id` will link the name of the menu in the `menu_names` table. The `menu_id` is a numeric value.
+
 ```{r}
 menu <- tibble(
   recipe_id = 1:2,
@@ -108,6 +129,8 @@ menu
 ```
 
 ### Table: menu_names
+
+The `menu_names` table provides the mapping between `menu_id` and the human friendly name of the menu in `menu_name`.
 ```{r}
 menu_names <- tibble(
   menu_id = 1:3,
@@ -119,6 +142,8 @@ menu_names
 
 
 ### Table: courses
+
+The table `courses` contains information one what courses the recipe is likely to go well in. The `course_id` is a numeric value. A recipe might have multiple courses that it would go well in such as a side dish or as a main entree.
 ```{r}
 courses <- tibble(
   recipe_id = 1:2,
@@ -129,11 +154,13 @@ courses
 ```
 
 ### Table: course_mapping
+
+The `course_mapping` table gives the name for the `course_id`. The `course_name` is a string.
 ```{r}
 
 course_mapping <- tibble(
   course_id = 1:2,
-  course_name = c("casual lunch", "breakfast")
+  course_name = c("side dish", "main entree")
   
 )
 
@@ -142,7 +169,13 @@ course_mapping
 
 ## Feedback section
 
+The feedback setion of the database includes tables that have to do with people's reactions to recipes or their notes. It also contains the table with information about people in the database. 
+
 ### Table: users
+
+The `users`table provides every user for the database with a unique numeric id called user_id. This table is also used to provide names for sources, who might not use the database, but need to be identified else where in the database. An example would be my late grandmother or Bonnie Frumkin Morales, one of my families favorite chefs whose Russian cookbook, <u>Kachka: A Return To Russian Cooking</u>, is the ground truth for modern Russian cuisine in our home.
+
+The `name` column is the person's name stored as a string, and the `info` column are additional notes about the user stored as text. 
 ```{r}
 users <- tibble(
   user_id = 1:6,
@@ -154,6 +187,8 @@ users
 ```
 
 ### Table: difficulty
+
+The `difficulty` table is how users can rate recipes. The `recipe_meta` table has a difficulty column, and that is from me as the owner of the database. However, people can keep their own notes and reviews of recipes and use the same scale but choose a different level for the recipe. 
 ```{r}
 difficulty <- tibble(
   difficulty_rating = 1:5,
@@ -164,13 +199,15 @@ difficulty
 ```
 
 ### Table: users_notes
+
+The `users_notes` table allows users to store notes about recipes. This is the bug report part of the recipe database. A user can have multiple notes for a recipe. The date allows a person to capture time data about the note, the note field is text. A note can be labeled as a proxy_note with a logical value, `TRUE` or `FALSE` and then the `proxy_id` is the `user_id` of who did write the note. The use case for this is something like, I write a note for someone, say my young son, who can't write his own notes yet. This would be for ideas about how to change the recipe, or if something needed to be fixed in the recipe. 
 ```{r}
 users_notes <- tibble(
   user_id = 1:2,
-  recipe_id = 1:2,
+  recipe_id = 10:11,
   date = c(20201023, 20200903),
-  note = c("My experience was...", "I enjoyed..."),
-  proxy_note = as.logical(TRUE, FALSE),
+  note = c("Need to update recipe to correct mistake in step 8...", "Too much sauce to noodle ratio..."),
+  proxy_note = as.logical(c(1, 0)),
   proxy_id = 3:4
 )
 
@@ -178,17 +215,37 @@ users_notes
 ```
 
 ### Table: ratings
+
+The `ratings` table is a way for users to rate recipes on and put in long text reviews. This is different from the `notes` table. The imagined case for this is collect ratings of recipes from both as an indicator of how much someone enjoyed it, to how difficult they found it to make if they cooked. The `try_again` column is a logical value if the person would try the recipe again. The required fields are `recipe_id` and at least one of `rating`, `eat_again`, or `difficulty_rating`.
 ```{r}
 ratings <- tibble(
   recipe_id = 1:2,
   rating = 1:2,
+  try_again = as.logical(c(1, 0)),
   rater_id = 1:2,
   difficulty_rating = c(1, NA),
   date = lubridate::ymd(c(20201023, 20200903)),
-  notes = c("Terrible", "Would like to try with rye bread toast.")
+  notes = c("Terrible", "Would like to try with rye bread toast."),
+  proxy_rating = as.logical(c(1, 0)),
+  proxy_id = 3:4
 )
 
 ratings
+```
+
+### Table: rating_scale
+
+The `rating_scale` table maps the numeric value of the `rating` to a text factor in `rating_description` that describes the numeric values's meanings. 
+
+The `rating`  scale is a minus 2 to plus 2 scale which is highly favored in the Alexeev household. It has the benefit that the values 1 and 5 can be confused (which is the good value??), but that people are unlikely to think -2 is a good value to assign to a recipe. 
+
+```{r}
+rating_scale <- tibble(
+  rating = -2:2,
+  rating_description = c("Strongly disliked", "Disliked", "Indifferent", "Enjoyed", "Strongly Enjoyed")
+)
+
+rating_scale
 ```
 
 
@@ -201,6 +258,7 @@ ingredients_used <- tibble(
   ingredient_id = 1:4,
   step_number = 1:4,
   quantity = c(2, 3, 4, 5),
+  scaling_factor = 1,
   unit = as_factor(c("slices", "cups", "grams", "tablespoons")),
   preparation = as_factor(c("chopped", "diced", "sliced", "minced")),
   notes = NA
@@ -365,6 +423,8 @@ raw_recipe_input <- tibble(
 )
 
 raw_recipe_input
+
+write_csv(raw_recipe_input, "./csv_files/raw_recipe_input.csv")
 ```
 
 
@@ -420,10 +480,10 @@ I could search the database to find ingredients that are in season around that t
 
 I am traveling and staying at rental house, but I am going to host a dinner for New Years. I have a restricted number of kitchen equipment, so I want to only consider recipes in my "party" tag that have the equipment i have access to. 
 ```{r}
-dbGetQuery(conn,"SELECT * 
-                 FROM recipes
-                 LEFT JOIN sources ON source = id_source
-                 WHERE source = 1")
+# dbGetQuery(conn,"SELECT * 
+#                  FROM recipes
+#                  LEFT JOIN sources ON source = id_source
+#                  WHERE source = 1")
 ```
 
 ### Question 2

@@ -1,0 +1,3 @@
+user_id,recipe_id,date,note,proxy_note,proxy_id
+1,1,20201023,My experience was...,TRUE,3
+2,2,20200903,I enjoyed...,TRUE,4

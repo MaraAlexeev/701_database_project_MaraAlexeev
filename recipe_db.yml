@@ -15,7 +15,7 @@
     recipe_id: {key: yes}
     recipe_name:
     attribution_id: {key: yes, ref: users}
-    url:
+    source:
     notes:
     active_time:
     passive_time:
@@ -135,6 +135,7 @@
     ingredient_id:
     step_number:
     quantity:
+    scaling_factor:
     unit:
     preparation:
 
