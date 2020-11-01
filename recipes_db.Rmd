@@ -66,6 +66,7 @@ library(RSQLite)
 library(datamodelr)
 library(yaml)
 library(DiagrammeR)
+library(readxl)
 ```
 
 ```{r}
@@ -91,39 +92,45 @@ The `recipe_name` is the string of text that the recipe is called that would be 
 
 The `attribution_id` is a numeric value assigned to the source of the recipe. 
 
-The `source` is a string that specifies the location if applicable that the recipe can be found at. Examples might be a URL or a book and page number. 
+The `recipe_source` is a string that specifies the location if applicable that the recipe can be found at. Examples might be a URL or a book and page number. 
 
-The `notes` column is where text about the recipe is contained. This might be a history of where the recipe came from or what inspired it, but it does not contain the recipe itself. 
+The `recipe_notes` column is where text about the recipe is contained. This might be a history of where the recipe came from or what inspired it, but it does not contain the recipe itself. 
 
 The `active_time` and `passive_time` are time durations that the recipe takes. I had initially thought that this should be stored in minutes, but some recipes have very long passive times, over days, so it might be best to store this in a format that is amenable to being converted to a human friendly display, so that if a recipe has a 3 day passive period it says 3 days not 4320 minutes.
 
 The `estimated_servings` column has the number of servings for the basic recipe. In the shiny app I am building, this will adjust based on the scaling factor input by the user.
-```{r}
-recipe_meta <- tibble(
-  recipe_id = 1:2,
-  recipe_name = c("PBJ sandwich", "Srambled eggs"), 
-  attribution_id = 1:2, 
-  source = c(NA, NA),
-  notes = c("Test entry", "Another test"),
-  active_time = c(2, 10),
-  passive_time = c(0, 2),
-  estimated_servings = c(1, NA)
-  )
+```{r recipe_meta table creation}
+# recipe_meta <- tibble(
+#   recipe_id = 1:2,
+#   recipe_name = c("Apple Crisp", "Srambled eggs"), 
+#   attribution_id = c(4, 2), 
+#   recipe_source = c(NA, NA),
+#   recipe_notes = c("A simple and delicious dessert", "Another test"),
+#   active_time = c(15, 10),
+#   passive_time = c(40, 2),
+#   estimated_servings = c(9, NA)
+#   )
 
-recipe_meta 
+recipe_meta <-read_excel("files/recipe_workbook.xlsx", 
+    sheet = "recipe_meta")
+
+recipe_meta
 ```
 
 ### Table: menu
 
-The `menu` table assign recipes to different menus. A recipe can be assigned many different menus and menus can have many different recipes. Examples of a menu can be a specific event, such as "Mara's 30th Birthday Party" or "New Year's Eve 2018", or to a generic event such as "Brunch" or "Picnic". 
+The `menu` table assign recipes to different menus. A recipe can be assigned many different menus and menus can have many different recipes. Examples of a menu can be a specific event, such as "Mara's 30th Birthday Party" or "New Year's Eve 2018", or to a generic event such as "Brunch" or "Picnic". The overall point of this table versus the tag feature, is that the menu represents curated menus that can be reused in part or in whole.
 
 The `recipe_id` links to the recipes and the `menu_id` will link the name of the menu in the `menu_names` table. The `menu_id` is a numeric value.
 
 ```{r}
-menu <- tibble(
-  recipe_id = 1:2,
-  menu_id= 1:2
-)
+# menu <- tibble(
+#   recipe_id = 1:2,
+#   menu_id= c(4, NA)
+# )
+
+menu <-read_excel("files/recipe_workbook.xlsx", 
+    sheet = "menu")
 
 menu
 ```
@@ -132,10 +139,13 @@ menu
 
 The `menu_names` table provides the mapping between `menu_id` and the human friendly name of the menu in `menu_name`.
 ```{r}
-menu_names <- tibble(
-  menu_id = 1:3,
-  menu_name = c("Thanksgiving 2020", "New Years Eve 2019", "Birthday Brunch June 2020")
- )
+# menu_names <- tibble(
+#   menu_id = 1:4,
+#   menu_name = c("Thanksgiving 2020", "New Years Eve 2019", "Birthday Brunch June 2020", "Fall Dinner Party")
+#  )
+
+menu_names <-read_excel("files/recipe_workbook.xlsx", 
+    sheet = "menu_names")
 
 menu_names
 ```
@@ -145,12 +155,16 @@ menu_names
 
 The table `courses` contains information one what courses the recipe is likely to go well in. The `course_id` is a numeric value. A recipe might have multiple courses that it would go well in such as a side dish or as a main entree.
 ```{r}
-courses <- tibble(
-  recipe_id = 1:2,
-  course_id = 1:2
-)
+# courses <- tibble(
+#   recipe_id = 1,
+#   course_id = 8
+# )
+
+courses <-read_excel("files/recipe_workbook.xlsx", 
+    sheet = "courses")
 
 courses
+
 ```
 
 ### Table: course_mapping
@@ -159,9 +173,9 @@ The `course_mapping` table gives the name for the `course_id`. The `course_name`
 ```{r}
 
 course_mapping <- tibble(
-  course_id = 1:2,
-  course_name = c("side dish", "main entree")
-  
+  course_id = 1:10,
+  course_desc = c("Hors-d'oeuvres", "Amuse-gueule", "Soup", "Appetizer", "Salad", "Main Dish", "Palate cleanser", "Dessert", "Drinks", "Snack")
+
 )
 
 course_mapping 
@@ -169,21 +183,24 @@ course_mapping
 
 ## Feedback section
 
-The feedback setion of the database includes tables that have to do with people's reactions to recipes or their notes. It also contains the table with information about people in the database. 
+The feedback section of the database includes tables that have to do with people's reactions to recipes or their notes. It also contains the table with information about people in the database. 
 
 ### Table: users
 
 The `users`table provides every user for the database with a unique numeric id called user_id. This table is also used to provide names for sources, who might not use the database, but need to be identified else where in the database. An example would be my late grandmother or Bonnie Frumkin Morales, one of my families favorite chefs whose Russian cookbook, <u>Kachka: A Return To Russian Cooking</u>, is the ground truth for modern Russian cuisine in our home.
 
-The `name` column is the person's name stored as a string, and the `info` column are additional notes about the user stored as text. 
+The `user_name` column is the person's name stored as a string, and the `user_info` column are additional notes about the user stored as text. 
 ```{r}
-users <- tibble(
-  user_id = 1:6,
-  name = NA,
-  info = NA
-)
+# users <- tibble(
+#   user_id = 1:4,
+#   user_name = c("Mara Alexeev", "Boris Alexeev", "Denise Determan", "Donna Goodman"),
+#   user_info = NA
+# )
 
-users 
+users <-read_excel("files/recipe_workbook.xlsx", 
+    sheet = "users")
+
+users
 ```
 
 ### Table: difficulty
@@ -191,8 +208,8 @@ users
 The `difficulty` table is how users can rate recipes. The `recipe_meta` table has a difficulty column, and that is from me as the owner of the database. However, people can keep their own notes and reviews of recipes and use the same scale but choose a different level for the recipe. 
 ```{r}
 difficulty <- tibble(
-  difficulty_rating = 1:5,
-  description = c("Very Easy", "Easy", "Moderately difficult", "Difficult", "Very Complex")
+  difficulty_rating = -2:2,
+  difficulty_desc = c("Very Easy", "Easy", "Moderately difficult", "Difficult", "Very Complex")
 )
 
 difficulty 
@@ -200,49 +217,53 @@ difficulty
 
 ### Table: users_notes
 
-The `users_notes` table allows users to store notes about recipes. This is the bug report part of the recipe database. A user can have multiple notes for a recipe. The date allows a person to capture time data about the note, the note field is text. A note can be labeled as a proxy_note with a logical value, `TRUE` or `FALSE` and then the `proxy_id` is the `user_id` of who did write the note. The use case for this is something like, I write a note for someone, say my young son, who can't write his own notes yet. This would be for ideas about how to change the recipe, or if something needed to be fixed in the recipe. 
+The `users_notes` table allows users to store notes about recipes. This is the bug report part of the recipe database. A user can have multiple notes for a recipe. The date allows a person to capture time data about the note, the note field is text. A note can be entered by a proxy then the `proxy_id` is the `user_id` of who did write the note. The use case for this is something like, I write a note for someone, say my young son, who can't write his own notes yet. This would be for ideas about how to change the recipe, or if something needed to be fixed in the recipe. 
 ```{r}
-users_notes <- tibble(
-  user_id = 1:2,
-  recipe_id = 10:11,
-  date = c(20201023, 20200903),
-  note = c("Need to update recipe to correct mistake in step 8...", "Too much sauce to noodle ratio..."),
-  proxy_note = as.logical(c(1, 0)),
-  proxy_id = 3:4
-)
+# users_notes <- tibble(
+#   user_id = 1:2,
+#   recipe_id = 10:11,
+#   note_date = c(20201023, 20200903),
+#   user_note = c("Need to update recipe to correct mistake in step 8...", "Too much sauce to noodle ratio..."),
+#   proxy_id = 3:4
+# )
+
+users_notes <-read_excel("files/recipe_workbook.xlsx", 
+    sheet = "users_notes")
 
 users_notes
 ```
 
 ### Table: ratings
 
-The `ratings` table is a way for users to rate recipes on and put in long text reviews. This is different from the `notes` table. The imagined case for this is collect ratings of recipes from both as an indicator of how much someone enjoyed it, to how difficult they found it to make if they cooked. The `try_again` column is a logical value if the person would try the recipe again. The required fields are `recipe_id` and at least one of `rating`, `eat_again`, or `difficulty_rating`.
+The `ratings` table is a way for users to rate recipes on and put in long text reviews. This is different from the `notes` table. The imagined case for this is collect ratings of recipes from both as an indicator of how much someone enjoyed it, to how difficult they found it to make if they cooked. The `try_again` column is a logical value if the person would try the recipe again. The required fields are `recipe_id` and at least one of `rating_id`, `eat_again`, or `difficulty_rating`.
 ```{r}
-ratings <- tibble(
-  recipe_id = 1:2,
-  rating = 1:2,
-  try_again = as.logical(c(1, 0)),
-  rater_id = 1:2,
-  difficulty_rating = c(1, NA),
-  date = lubridate::ymd(c(20201023, 20200903)),
-  notes = c("Terrible", "Would like to try with rye bread toast."),
-  proxy_rating = as.logical(c(1, 0)),
-  proxy_id = 3:4
-)
+# ratings <- tibble(
+#   recipe_id = 1:2,
+#   rating_id = c(0, 1),
+#   try_again = as.logical(c(1, 1)),
+#   rater_id = 1:2,
+#   difficulty_rating = c(0, NA),
+#   rating_date = lubridate::ymd(c(20201023, 20200903)),
+#   rating_note = c("Wonderful!", "Would like to try with rye bread toast."),
+#   proxy_id = c(1,4)
+# )
+
+ratings <-read_excel("files/recipe_workbook.xlsx", 
+    sheet = "ratings")
 
 ratings
 ```
 
 ### Table: rating_scale
 
-The `rating_scale` table maps the numeric value of the `rating` to a text factor in `rating_description` that describes the numeric values's meanings. 
+The `rating_scale` table maps the numeric value of the `rating_id` to a text factor in `rating_desc` that describes the numeric values's meanings. 
 
-The `rating`  scale is a minus 2 to plus 2 scale which is highly favored in the Alexeev household. It has the benefit that the values 1 and 5 can be confused (which is the good value??), but that people are unlikely to think -2 is a good value to assign to a recipe. 
+The `rating` scale is a minus 2 to plus 2 scale which is highly favored in the Alexeev household. It has the benefit that the values 1 and 5 can be confused (which is the good value??), but that people are unlikely to think -2 is a good value to assign to a recipe. 
 
 ```{r}
 rating_scale <- tibble(
-  rating = -2:2,
-  rating_description = c("Strongly disliked", "Disliked", "Indifferent", "Enjoyed", "Strongly Enjoyed")
+  rating_id = -2:2,
+  rating_desc = c("Strongly disliked", "Disliked", "Indifferent", "Enjoyed", "Strongly Enjoyed")
 )
 
 rating_scale
@@ -250,54 +271,70 @@ rating_scale
 
 
 ## Ingredients section
-
+The `ingredients` section of the database has tables with information about ingredients needed for recipes and then also gives information about individual ingredients unrelated to any specific recipe such as where the ingredient is likely to be found in the grocery store. 
 ### Table: ingredients_used
 ```{r}
-ingredients_used <- tibble(
-  recipe_id = 1,
-  ingredient_id = 1:4,
-  step_number = 1:4,
-  quantity = c(2, 3, 4, 5),
-  scaling_factor = 1,
-  unit = as_factor(c("slices", "cups", "grams", "tablespoons")),
-  preparation = as_factor(c("chopped", "diced", "sliced", "minced")),
-  notes = NA
-)
+# ingredients_used <- tibble(
+#   recipe_id = 1,
+#   ingredient_id = c(2, 3, 4, 5),
+#   step_number = 1:4,
+#   quantity = c(2, 3, 4, 5),
+#   unit = as_factor(c("slices", "cups", "grams", "tablespoons")),
+#   scaling_factor = 1,
+#   preparation = as_factor(c("chopped", "diced", "sliced", "minced")),
+#   ingredient_note = NA
+# )
+
+
+
+ingredients_used <- read_excel("files/recipe_workbook.xlsx", 
+    sheet = "ingredients_used")
 
 ingredients_used
+
 ```
 
 ### Table: ingredients_info
+The `ingredients_info` table links ingredients to ontology information for the ingredients. The onology is called "FoodOn" and is discussed in [Part 4]. 
 ```{r}
-ingredients_info <- tibble(
-  ingredient_id = 1,
-  name = "Carrot",
-  season_att = as_factor("Fall"),
-  category = as_factor("Vegetable"),
-  store_location = as_factor("Produce"),
-  ontology_info = "http://purl.obolibrary.org/obo/FOODON_00001687"
-)
+# ingredients_info <- tibble(
+#   ingredient_id = c(1, 2, 3, 4, 5, 6),
+#   ingredient_name = c("Carrot", "Apple, Gold Delicious", "Sugar", "Cinnamon", "Butter", "Flour"), 
+#   season_attr = as_factor(c("Fall", "Fall", "None", "None", "None", "None")),
+#   category = as_factor(c("Vegetable", "Fruit", "Dry good", "Spice", "Dairy", "Dry Good")),
+#   store_location = c("Produce", "Produce", "Baking", "Spice", "Dairy", "Baking"),
+#   ontology_info = c("http://purl.obolibrary.org/obo/FOODON_00001687", "http://www.ontobee.org/ontology/FOODON?iri=http://purl.obolibrary.org/obo/FOODON_03411245", "http://www.ontobee.org/ontology/FOODON?iri=http://purl.obolibrary.org/obo/CHEBI_17992", "http://www.ontobee.org/ontology/FOODON?iri=http://purl.obolibrary.org/obo/FOODON_03301556", "http://www.ontobee.org/ontology/FOODON?iri=http://purl.obolibrary.org/obo/FOODON_03301777", "http://www.ontobee.org/ontology/FOODON?iri=http://purl.obolibrary.org/obo/FOODON_03304534")
+# )
+
+ingredients_info <- read_excel("files/recipe_workbook.xlsx", 
+    sheet = "ingredients_info")
 
 ingredients_info
 ```
 
 ## Collections section
-
+The collections section allows users to tag recipes with a concept to allow personalized grouping. A recipe can have multiple tags. Tags can represent a concept like time of year the dish is often associated such as Thanksgiving, or it can tag the recipe with an idea like that it is a good dish for packed lunches. This also can tag the recipe with a concept like the type of cuisine it is, eg Russian.
 ### Table: tags
 ```{r}
-tags <- tibble(
-  recipe_id = 1:2,
-  tag_id = 1:2)
+# tags <- tibble(
+#   recipe_id = 1,
+#   tag_id = 6)
+
+tags <-  read_excel("files/recipe_workbook.xlsx", 
+    sheet = "tags")
 
 tags
 ```
 
 ### Table: tag_names
 ```{r}
-tag_names <- tibble(
-  tag_id = 1:4,
-  tag_description = as_factor(c("Christmas", "New Years", "Packed Lunch", "Baby Food"))
-)
+# tag_names <- tibble(
+#   tag_id = 1:6,
+#   tag_desc = as_factor(c("Christmas", "New Years", "Packed Lunch", "Baby Food", "Russian", "Goodman Family Tradition"))
+# )
+
+tag_names <-  read_excel("files/recipe_workbook.xlsx", 
+    sheet = "tag_names")
 
 tag_names
 ```
@@ -306,33 +343,42 @@ tag_names
 
 ### Table: tools_needed 
 ```{r}
-tools_needed <- tibble(
-  recipe_id = 1,
-  tool_id = 1
-)
+# tools_needed <- tibble(
+#   recipe_id = 1,
+#   tool_id = 1
+# )
+
+tools_needed <-  read_excel("files/recipe_workbook.xlsx", 
+    sheet = "tools_needed")
 
 tools_needed
 ```
 
 ### Table: tool_info 
 ```{r}
-tool_info <- tibble(
-  tool_id = 1:2,
-  name = as_factor(c("sous vide", "large pot")),
-  cost = c(100, 20),
-  alternative = c("water bath", NA),
-  notes = NA
-)
+# tool_info <- tibble(
+#   tool_id = 1:7,
+#   tool_name = as_factor(c("chef's knife", "peeler", "measuring spoons", "measuring cups", "oven", "sous vide", "large pot")),
+#   tool_cost = NA,
+#   tool_alternative = NA,
+#   tool_note = NA
+# )
 
-tool_info 
+tool_info <-  read_excel("files/recipe_workbook.xlsx", 
+    sheet = "tool_info")
+
+tool_info
 ```
 
 ### Table: techniques_used
 ```{r}
-techniques_used <- tibble(
-  recipe_id = 1, 
-  tech_id = c(1)
-)
+# techniques_used <- tibble(
+#   recipe_id = 2, 
+#   tech_id = c(1)
+# )
+
+techniques_used <-  read_excel("files/recipe_workbook.xlsx", 
+    sheet = "techniques_used")
 
 techniques_used
 ```
@@ -340,11 +386,14 @@ techniques_used
 
 ### Table: tech_info
 ```{r}
-tech_info <- tibble(
-  tech_id = 1,
-  name = "Kneading", 
-  notes = "As alternative can use bread setting on mixer."
-)
+# tech_info <- tibble(
+#   tech_id = 1,
+#   tech_name = "Kneading", 
+#   tech_note = "As alternative can use bread setting on mixer."
+# )
+
+tech_info <-  read_excel("files/recipe_workbook.xlsx", 
+    sheet = "tech_info")
 
 tech_info
 ```
@@ -353,78 +402,62 @@ tech_info
 
 ### Table: steps
 ```{r}
-steps <- tibble(
-  recipe_id = 1,
-  step_number = 1,
-  directions = "Place holder"
-)
+# steps <- tibble(
+#   recipe_id = 1,
+#   step_number = c(1, 2, 3, 4),
+#   directions = c("Peel and slice **all apples** and place in baking dish.", "Sprinkle **half of the sugar** and **2/3 of the cinnamon** over the apples. Mix to coat apples evenly.", "In a separate bowl, mix the other **half of the sugar**, **1/3 of the cinnamon**, **all the flour**, and **all the butter**. Sprinkle mixture over apples.", "Bake at 350F degrees for 40 minutes. The topping should be lightly browned.")
+# )
+
+steps <-  read_excel("files/recipe_workbook.xlsx", 
+    sheet = "steps")
 
 steps
+
 ```
 
 ### Table: variations
 ```{r}
-variations <- tibble(
-  recipe_id = 1,
-  variation_number = 1, 
-  variation_text = "Instead of peanut butter try almond butter. It's worse."
-)
+# variations <- tibble(
+#   recipe_id = 99,
+#   variation_id = 101
+# )
+
+variations  <- read_excel("files/recipe_workbook.xlsx", 
+    sheet = "variations")
+
 variations
 ```
 ### Table: tips
 ```{r}
-tips <- tibble(
-  recipe_id = 1,
-  tip_number = 1, 
-  tip_text = "Can freeze overnight and will thaw by lunch if put in lunchbag."
-)
+# tips <- tibble(
+#   recipe_id = 99,
+#   tip_number = 1, 
+#   tip_text = "Can freeze overnight and will thaw by lunch if put in lunchbag."
+# )
+
+tips <- read_excel("files/recipe_workbook.xlsx", 
+    sheet = "tips")
 
 tips
 ```
 
-### Table: dietary_modifications
-```{r}
-dietary_modifications <- tibble(
-  recipe_id = 1, 
-  modification_id = 1
-)
 
-dietary_modifications
-```
-
-
-### Table: dietary_modifications_id
-```{r}
-dietary_modifications_id <- tibble(
-   modification_id = 1,
-   mod_id_text = "Vegan Friendly"
-)
-
-dietary_modifications_id
-```
-
-### Table: abbr_recipes
-```{r}
-abbr_recipes <- tibble(
-  recipe_id = 1,
-  step_number = 1,
-  abbr_text = "Place holder on abbreviated recipe step."
-)
-
-abbr_recipes
-```
 
 ### Table: raw_recipe_input
 ```{r}
-raw_recipe_input <- tibble(
-  recipe_name = "Grandma Donna's Hot Fudge Sauce",
-  recipe_id = 3,
-  input_text = "Place holder"
-)
+# raw_recipe_input <- tibble(
+#   recipe_name = "Grandma Donna’s Chocolate Sauce",
+#   recipe_id = 2,
+#   raw_text = "1/4 pound butter (one stick), 3 squares (3 oz) chocolate (this would be 12 now, as Bakers’ Chocolate comes in ¼ oz “squares”...used to be 1 oz squares. Just be mindful of whatever the brand is packaged as...that is, by weight.), 3 cups sugar, Dash salt, 1 tall can evaporated milk (Carnation Milk)
+# Melt butter and chocolate over hot water. (I use a double boiler.) Stir in sugar one tablespoon at a time. (This is tedious, but important to get smooth results.) Add milk and heat until sauce is velvety smooth and sugar has all been dissolved. When adding sugar, DON’T Panic! The mixture becomes VERY thick and sugar isn’t dissolving. Try to get it all added, if possible. Then add the milk. I use a whisk to stir. By the time it is done, no sugar crystals should remain."
+# )
+
+raw_recipe_input <- read_excel("files/recipe_workbook.xlsx", 
+    sheet = "raw_recipe_input")
 
 raw_recipe_input
 
-write_csv(raw_recipe_input, "./csv_files/raw_recipe_input.csv")
+
 ```
 
 
@@ -457,6 +490,7 @@ dbWriteTable(con_recipe_db, "tech_info", tech_info, overwrite = TRUE)
 
 
 dbListTables(con_recipe_db)
+
 ```
 # Test simple queries with RSQLite
 ```{r}

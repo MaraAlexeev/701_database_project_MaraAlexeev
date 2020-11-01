@@ -15,8 +15,8 @@
     recipe_id: {key: yes}
     recipe_name:
     attribution_id: {key: yes, ref: users}
-    source:
-    notes:
+    recipe_source:
+    recipe_notes:
     active_time:
     passive_time:
     estimated_servings:
@@ -25,66 +25,71 @@
   segment: *meta
   columns:
     recipe_id: {key: yes, ref: recipe_meta}
-    menu_id:
+    menu_id: {key: yes, ref: menu_names}
 
 - table: ratings
   segment: *feedback
   columns:
     recipe_id: {key: yes, ref: recipe_meta}
-    rating:
+    rating_id: {key: yes, ref: rating_scale}
     rater_id: {key: yes, ref: users}
     difficulty_rating: {key: yes, ref: difficulty}
-    date:
-    notes:
+    rating_date:
+    rating_note:
+    proxy_id: {key: yes, ref: users}
+
+- table: rating_scale
+  segment: *feedback
+  columns:
+    rating_id:
+    rating_desc:
 
 - table: courses
   segment: *meta
   columns:
     recipe_id: {key: yes, ref: recipe_meta}
-    course_id:
+    course_id: {key: yes, ref: course_mapping}
 
 - table: menu_names
   segment: *meta
   columns:
-    menu_id: {key: yes, ref: menu}
+    menu_id: {key: yes}
     menu_name:
-
 
 - table: tags
   segment: *collections
   columns:
     recipe_id: {key: yes, ref: recipe_meta}
-    tag_id:
+    tag_id: {key: yes, ref: tag_names}
 
 
 - table: tag_names
   segment: *collections
   columns:
-    tag_id: {key: yes, ref: tags}
-    tag_description:
+    tag_id: {key: yes}
+    tag_desc:
 
 - table: users
   segment: *feedback
   columns:
     user_id: {key: yes}
-    name:
-    info:
+    user_name:
+    user_info:
 
 - table: users_notes
   segment: *feedback
   columns:
     user_id: {key: yes, ref: users}
     recipe_id: {key: yes, ref: recipe_meta}
-    date:
-    note:
-    proxy_note:
+    note_date:
+    user_note:
     proxy_id: {key: yes, ref: users}
 
 - table: difficulty
   segment: *feedback
   columns:
     difficulty_rating: {key: yes}
-    description:
+    difficulty_desc:
 
 - table: raw_recipe_input
   segment: *recipe_details
@@ -92,73 +97,55 @@
   columns:
     recipe_name: {key: yes, ref: recipe_meta}
     recipe_id: {key: yes, ref: recipe_meta}
-    input_text:
-
+    raw_text:
 
 - table: steps
   segment: *recipe_details
   columns:
     recipe_id: {key: yes, ref: recipe_meta}
+    version_id:
     step_number:
     directions:
 
 - table: tips
   segment: *recipe_details
   columns:
-    recipe_id: {key: yes, ref: steps}
+    recipe_id: {key: yes, ref: recipe_meta}
     tip_number:
     tip_text:
 
 - table: variations
-  segment: *recipe_details
+  segment: *meta
   columns:
-    recipe_id: {key: yes, ref: steps}
-    variation_number:
-    variation_text:
+    recipe_id: {key: yes, ref: recipe_meta}
+    variation_id: {key: yes, ref: recipe_meta}
 
-- table: dietary_modifications
-  segment: *recipe_details
-  columns:
-    recipe_id: {key: yes, ref: steps}
-    modification_id:
-
-- table: dietary_modifications_id
-  segment: *recipe_details
-  columns:
-    modification_id: {key: yes, ref: dietary_modifications}
-    mod_id_text:
 
 - table: ingredients_used
   segment: *ingredients
   columns:
     recipe_id: {key: yes, ref: recipe_meta}
-    ingredient_id:
-    step_number:
-    quantity:
-    scaling_factor:
+    ingredient_id: {key: yes, ref: ingredients_info}
     unit:
-    preparation:
-
-- table: abbr_recipes
-  segment: *recipe_details
-  columns:
-    recipe_id: {key: yes, ref: steps}
+    quantity:
     step_number:
-    text:
+    preparation:
+    ingredient_note:
+    scaling_factor:
 
 - table: course_mapping
   segment: *meta
   columns:
-    course_id: {key: yes, ref: courses}
-    course_name:
+    course_id: {key: yes}
+    course_desc:
 
 - table: ingredients_info
   segment: *ingredients
   display: accent1
   columns:
-    ingredient_id: {key: yes, ref: ingredients_used}
-    name:
-    season_att:
+    ingredient_id: {key: yes}
+    ingredient_name:
+    season_attr:
     category:
     store_location:
     ontology_info:
@@ -166,29 +153,29 @@
 - table: tool_info
   segment: *tools
   columns:
-    tool_id: {key: yes, ref: tools_needed}
-    name:
-    cost:
-    alternative:
-    notes:
+    tool_id: {key: yes}
+    tool_name:
+    tool_cost:
+    tool_alternative:
+    tool_note:
 
 - table: techniques_used
   segment: *tools
   columns:
     recipe_id: {key: yes, ref: recipe_meta}
-    tech_id:
+    tech_id: {key: yes, ref: tech_info}
 
 - table: tech_info
   segment: *tools
   columns:
-    tech_id: {key: yes, ref: techniques_used}
-    name:
-    notes:
+    tech_id: {key: yes}
+    tech_name:
+    tech_note:
 
 - table: tools_needed
   segment: *tools
   columns:
     recipe_id: {key: yes, ref: recipe_meta}
-    tool_id:
+    tool_id: {key: yes, ref: tool_info}
 
 

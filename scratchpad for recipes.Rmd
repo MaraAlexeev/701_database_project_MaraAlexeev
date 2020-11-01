@@ -1,0 +1,50 @@
+---
+title: "scratch_pad_for recipes"
+author: "Mara Alexeev"
+date: "10/31/2020"
+output: html_document
+---
+
+### Table: dietary_modifications
+```{r}
+dietary_modifications <- tibble(
+  recipe_id = 1, 
+  modification_id = 1
+)
+
+dietary_modifications
+```
+
+
+### Table: dietary_modifications_id
+```{r}
+dietary_modifications_id <- tibble(
+   modification_id = 1,
+   mod_id_text = "Lacto-ovo vegetarian"
+)
+
+dietary_modifications_id
+```
+
+- table: dietary_modifications
+  segment: *recipe_details
+  columns:
+    recipe_id: {key: yes, ref: recipe_meta}
+    modification_id: {key: yes, ref: dietary_modifications_id}
+
+- table: dietary_modifications_id
+  segment: *recipe_details
+  columns:
+    modification_id: {key: yes}
+    mod_id_text:
+
+### Table: abbr_recipes
+```{r}
+abbr_recipes <- tibble(
+  recipe_id = 1,
+  step_number = c(1:4),
+  abbr_text = c("Peel and slice **all apples**.", "Coat apples with **half of the sugar** and **2/3 of the cinnamon**.", "Combine other **half of the sugar**, **1/3 of the cinnamon**, **all the flour**, and **all the butter** and sprinkle over apples.", "Bake at 350F degrees for 40 minutes.")
+)
+
+abbr_recipes
+```

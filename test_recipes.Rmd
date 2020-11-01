@@ -1,0 +1,17 @@
+---
+title: "Test Recipes"
+author: "Mara Alexeev"
+date: "10/31/2020"
+output: html_document
+---
+
+"Peel and slice **all apples** and place in baking dish.", "Sprinkle **half of sugar** and **2/3 of the cinnamon** over the apples. Mix to coat apples evenly.", "In a separate bowl, mix the other **half of the sugar**, **1/3 of the cinnamon**, **all the flour, and **all the butter**. Sprinkle mixture over apples.", "Bake at 350F degrees for 40 minutes. The topping should be lightly browned."
+```{r}
+print(steps$directions
+      
+      )
+```
+"Peel and slice **all apples** and place in baking dish."                                                                                                 
+[2] "Sprinkle **half of sugar** and **2/3 of the cinnamon** over the apples. Mix to coat apples evenly."                                                      
+[3] "In a separate bowl, mix the other **half of the sugar**, **1/3 of the cinnamon**, **all the flour, and **all the butter**. Sprinkle mixture over apples."
+[4] "Bake at 350F degrees for 40 minutes. The topping should be lightly browned."
