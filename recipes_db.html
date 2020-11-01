@@ -1656,13 +1656,14 @@ summary {
 library(RSQLite)
 library(datamodelr)
 library(yaml)
-library(DiagrammeR)</code></pre>
+library(DiagrammeR)
+library(readxl)</code></pre>
 <pre class="r"><code>dm &lt;- dm_read_yaml(&quot;./recipe_db.yml&quot;)
 graph &lt;- dm_create_graph(dm, rankdir = &quot;BT&quot;)
 database_layout &lt;- dm_render_graph(graph)
 database_layout</code></pre>
-<div id="htmlwidget-51e667b3bffe02589623" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-51e667b3bffe02589623">{"x":{"diagram":"#data_model\ndigraph {\ngraph [rankdir=BT tooltip=\"Data Model\" ]\n\nnode [margin=0 fontcolor = \"#444444\" ]\n\nedge [color = \"#555555\", arrowsize = 1, ]\n\n\nsubgraph cluster_1 {\nlabel=\"Recipe details\"\ncolor=\"#DDDDDD\"\n  \"abbr_recipes\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">abbr_recipes<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">step_number<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">text<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_2 {\nlabel=\"Metadata\"\ncolor=\"#DDDDDD\"\n  \"course_mapping\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">course_mapping<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>course_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">course_name<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_2 {\nlabel=\"Metadata\"\ncolor=\"#DDDDDD\"\n  \"courses\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">courses<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">course_id<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_1 {\nlabel=\"Recipe details\"\ncolor=\"#DDDDDD\"\n  \"dietary_modifications\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">dietary_modifications<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">modification_id<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_1 {\nlabel=\"Recipe details\"\ncolor=\"#DDDDDD\"\n  \"dietary_modifications_id\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">dietary_modifications_id<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>modification_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">mod_id_text<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_3 {\nlabel=\"Feedback\"\ncolor=\"#DDDDDD\"\n  \"difficulty\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">difficulty<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>difficulty_rating<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">description<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_4 {\nlabel=\"Ingredients\"\ncolor=\"#DDDDDD\"\n  \"ingredients_info\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#41719C\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#5B9BD5\" BORDER=\"0\"><FONT COLOR=\"#FFFFFF\">ingredients_info<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\"><U>ingredient_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\">name<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\">season_att<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\">category<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\">store_location<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\">ontology_info<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_4 {\nlabel=\"Ingredients\"\ncolor=\"#DDDDDD\"\n  \"ingredients_used\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">ingredients_used<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">ingredient_id<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">step_number<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">quantity<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">scaling_factor<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">unit<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">preparation<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_2 {\nlabel=\"Metadata\"\ncolor=\"#DDDDDD\"\n  \"menu\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">menu<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">menu_id<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_2 {\nlabel=\"Metadata\"\ncolor=\"#DDDDDD\"\n  \"menu_names\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">menu_names<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>menu_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">menu_name<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_3 {\nlabel=\"Feedback\"\ncolor=\"#DDDDDD\"\n  \"ratings\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">ratings<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">rating<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>rater_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>difficulty_rating<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">date<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">notes<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_1 {\nlabel=\"Recipe details\"\ncolor=\"#DDDDDD\"\n  \"raw_recipe_input\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#AE5A21\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#ED7D31\" BORDER=\"0\"><FONT COLOR=\"#FFFFFF\">raw_recipe_input<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F9DBD2\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F9DBD2\"><U>recipe_name<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F9DBD2\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F9DBD2\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F9DBD2\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F9DBD2\">input_text<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_2 {\nlabel=\"Metadata\"\ncolor=\"#DDDDDD\"\n  \"recipe_meta\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">recipe_meta<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">recipe_name<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>attribution_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">source<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">notes<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">active_time<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">passive_time<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">estimated_servings<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_1 {\nlabel=\"Recipe details\"\ncolor=\"#DDDDDD\"\n  \"steps\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">steps<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">step_number<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">directions<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_5 {\nlabel=\"Collections\"\ncolor=\"#DDDDDD\"\n  \"tag_names\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">tag_names<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>tag_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">tag_description<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_5 {\nlabel=\"Collections\"\ncolor=\"#DDDDDD\"\n  \"tags\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">tags<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">tag_id<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_6 {\nlabel=\"Tools and Techniques\"\ncolor=\"#DDDDDD\"\n  \"tech_info\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">tech_info<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>tech_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">name<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">notes<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_6 {\nlabel=\"Tools and Techniques\"\ncolor=\"#DDDDDD\"\n  \"techniques_used\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">techniques_used<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">tech_id<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_1 {\nlabel=\"Recipe details\"\ncolor=\"#DDDDDD\"\n  \"tips\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">tips<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">tip_number<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">tip_text<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_6 {\nlabel=\"Tools and Techniques\"\ncolor=\"#DDDDDD\"\n  \"tool_info\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">tool_info<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>tool_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">name<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">cost<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">alternative<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">notes<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_6 {\nlabel=\"Tools and Techniques\"\ncolor=\"#DDDDDD\"\n  \"tools_needed\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">tools_needed<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">tool_id<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_3 {\nlabel=\"Feedback\"\ncolor=\"#DDDDDD\"\n  \"users\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">users<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>user_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">name<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">info<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_3 {\nlabel=\"Feedback\"\ncolor=\"#DDDDDD\"\n  \"users_notes\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">users_notes<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>user_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">date<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">note<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">proxy_note<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>proxy_id<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_1 {\nlabel=\"Recipe details\"\ncolor=\"#DDDDDD\"\n  \"variations\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">variations<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">variation_number<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">variation_text<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\n\"recipe_meta\"->\"users\"\n\"menu\"->\"recipe_meta\"\n\"ratings\"->\"recipe_meta\"\n\"ratings\"->\"users\"\n\"ratings\"->\"difficulty\"\n\"courses\"->\"recipe_meta\"\n\"menu_names\"->\"menu\"\n\"tags\"->\"recipe_meta\"\n\"tag_names\"->\"tags\"\n\"users_notes\"->\"users\"\n\"users_notes\"->\"recipe_meta\"\n\"users_notes\"->\"users\"\n\"raw_recipe_input\"->\"recipe_meta\"\n\"raw_recipe_input\"->\"recipe_meta\"\n\"steps\"->\"recipe_meta\"\n\"tips\"->\"steps\"\n\"variations\"->\"steps\"\n\"dietary_modifications\"->\"steps\"\n\"dietary_modifications_id\"->\"dietary_modifications\"\n\"ingredients_used\"->\"recipe_meta\"\n\"abbr_recipes\"->\"steps\"\n\"course_mapping\"->\"courses\"\n\"ingredients_info\"->\"ingredients_used\"\n\"tool_info\"->\"tools_needed\"\n\"techniques_used\"->\"recipe_meta\"\n\"tech_info\"->\"techniques_used\"\n\"tools_needed\"->\"recipe_meta\"\n}","config":{"engine":null,"options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-5b9d488ec08e3f29bfc1" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5b9d488ec08e3f29bfc1">{"x":{"diagram":"#data_model\ndigraph {\ngraph [rankdir=BT tooltip=\"Data Model\" ]\n\nnode [margin=0 fontcolor = \"#444444\" ]\n\nedge [color = \"#555555\", arrowsize = 1, ]\n\n\nsubgraph cluster_1 {\nlabel=\"Metadata\"\ncolor=\"#DDDDDD\"\n  \"course_mapping\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">course_mapping<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>course_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">course_desc<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_1 {\nlabel=\"Metadata\"\ncolor=\"#DDDDDD\"\n  \"courses\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">courses<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>course_id<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_2 {\nlabel=\"Feedback\"\ncolor=\"#DDDDDD\"\n  \"difficulty\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">difficulty<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>difficulty_rating<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">difficulty_desc<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_3 {\nlabel=\"Ingredients\"\ncolor=\"#DDDDDD\"\n  \"ingredients_info\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#41719C\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#5B9BD5\" BORDER=\"0\"><FONT COLOR=\"#FFFFFF\">ingredients_info<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\"><U>ingredient_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\">ingredient_name<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\">season_attr<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\">category<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\">store_location<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#D6E1F1\">ontology_info<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_3 {\nlabel=\"Ingredients\"\ncolor=\"#DDDDDD\"\n  \"ingredients_used\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">ingredients_used<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>ingredient_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">unit<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">quantity<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">step_number<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">preparation<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">ingredient_note<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">scaling_factor<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_1 {\nlabel=\"Metadata\"\ncolor=\"#DDDDDD\"\n  \"menu\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">menu<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>menu_id<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_1 {\nlabel=\"Metadata\"\ncolor=\"#DDDDDD\"\n  \"menu_names\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">menu_names<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>menu_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">menu_name<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_2 {\nlabel=\"Feedback\"\ncolor=\"#DDDDDD\"\n  \"rating_scale\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">rating_scale<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">rating_id<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">rating_desc<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_2 {\nlabel=\"Feedback\"\ncolor=\"#DDDDDD\"\n  \"ratings\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">ratings<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>rating_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>rater_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>difficulty_rating<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">rating_date<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">rating_note<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>proxy_id<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_4 {\nlabel=\"Recipe details\"\ncolor=\"#DDDDDD\"\n  \"raw_recipe_input\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#AE5A21\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#ED7D31\" BORDER=\"0\"><FONT COLOR=\"#FFFFFF\">raw_recipe_input<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F9DBD2\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F9DBD2\"><U>recipe_name<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F9DBD2\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F9DBD2\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F9DBD2\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F9DBD2\">raw_text<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_1 {\nlabel=\"Metadata\"\ncolor=\"#DDDDDD\"\n  \"recipe_meta\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">recipe_meta<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">recipe_name<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>attribution_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">recipe_source<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">recipe_notes<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">active_time<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">passive_time<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">estimated_servings<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_4 {\nlabel=\"Recipe details\"\ncolor=\"#DDDDDD\"\n  \"steps\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">steps<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">version_id<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">step_number<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">directions<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_5 {\nlabel=\"Collections\"\ncolor=\"#DDDDDD\"\n  \"tag_names\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">tag_names<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>tag_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">tag_desc<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_5 {\nlabel=\"Collections\"\ncolor=\"#DDDDDD\"\n  \"tags\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">tags<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>tag_id<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_6 {\nlabel=\"Tools and Techniques\"\ncolor=\"#DDDDDD\"\n  \"tech_info\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">tech_info<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>tech_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">tech_name<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">tech_note<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_6 {\nlabel=\"Tools and Techniques\"\ncolor=\"#DDDDDD\"\n  \"techniques_used\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">techniques_used<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>tech_id<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_4 {\nlabel=\"Recipe details\"\ncolor=\"#DDDDDD\"\n  \"tips\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">tips<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">tip_number<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">tip_text<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_6 {\nlabel=\"Tools and Techniques\"\ncolor=\"#DDDDDD\"\n  \"tool_info\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">tool_info<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>tool_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">tool_name<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">tool_cost<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">tool_alternative<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">tool_note<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_6 {\nlabel=\"Tools and Techniques\"\ncolor=\"#DDDDDD\"\n  \"tools_needed\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">tools_needed<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>tool_id<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_2 {\nlabel=\"Feedback\"\ncolor=\"#DDDDDD\"\n  \"users\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">users<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>user_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">user_name<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">user_info<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_2 {\nlabel=\"Feedback\"\ncolor=\"#DDDDDD\"\n  \"users_notes\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">users_notes<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>user_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">note_date<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">user_note<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>proxy_id<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\nsubgraph cluster_1 {\nlabel=\"Metadata\"\ncolor=\"#DDDDDD\"\n  \"variations\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#555555\">\n    <TR>\n      <TD COLSPAN=\"2\" BGCOLOR=\"#EFEBDD\" BORDER=\"0\"><FONT COLOR=\"#000000\">variations<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>recipe_id<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\">~<\/TD>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#FFFFFF\"><U>variation_id<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n}\n\n\"recipe_meta\"->\"users\"\n\"menu\"->\"recipe_meta\"\n\"menu\"->\"menu_names\"\n\"ratings\"->\"recipe_meta\"\n\"ratings\"->\"rating_scale\"\n\"ratings\"->\"users\"\n\"ratings\"->\"difficulty\"\n\"ratings\"->\"users\"\n\"courses\"->\"recipe_meta\"\n\"courses\"->\"course_mapping\"\n\"tags\"->\"recipe_meta\"\n\"tags\"->\"tag_names\"\n\"users_notes\"->\"users\"\n\"users_notes\"->\"recipe_meta\"\n\"users_notes\"->\"users\"\n\"raw_recipe_input\"->\"recipe_meta\"\n\"raw_recipe_input\"->\"recipe_meta\"\n\"steps\"->\"recipe_meta\"\n\"tips\"->\"recipe_meta\"\n\"variations\"->\"recipe_meta\"\n\"variations\"->\"recipe_meta\"\n\"ingredients_used\"->\"recipe_meta\"\n\"ingredients_used\"->\"ingredients_info\"\n\"techniques_used\"->\"recipe_meta\"\n\"techniques_used\"->\"tech_info\"\n\"tools_needed\"->\"recipe_meta\"\n\"tools_needed\"->\"tool_info\"\n}","config":{"engine":null,"options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="create-tibbles-for-all-tables-in-database" class="section level1">
 <h1>Create tibbles for all tables in database</h1>
@@ -1674,253 +1675,352 @@ database_layout</code></pre>
 <p>The <code>recipe_id</code> column contains an numeric id that uniquely idenitifies the recipe. The number has no sematic meaning; it is assigned as the recipe is added to the database to the next available integer value. I have considered that a recipe with important variations could be nested under the value. For example, a pasta dish could be 1 and then variations of it could be 1.1, 1.2, etc.</p>
 <p>The <code>recipe_name</code> is the string of text that the recipe is called that would be referred to by people in speech or likely when searching for a recipe.</p>
 <p>The <code>attribution_id</code> is a numeric value assigned to the source of the recipe.</p>
-<p>The <code>source</code> is a string that specifies the location if applicable that the recipe can be found at. Examples might be a URL or a book and page number.</p>
-<p>The <code>notes</code> column is where text about the recipe is contained. This might be a history of where the recipe came from or what inspired it, but it does not contain the recipe itself.</p>
+<p>The <code>recipe_source</code> is a string that specifies the location if applicable that the recipe can be found at. Examples might be a URL or a book and page number.</p>
+<p>The <code>recipe_notes</code> column is where text about the recipe is contained. This might be a history of where the recipe came from or what inspired it, but it does not contain the recipe itself.</p>
 <p>The <code>active_time</code> and <code>passive_time</code> are time durations that the recipe takes. I had initially thought that this should be stored in minutes, but some recipes have very long passive times, over days, so it might be best to store this in a format that is amenable to being converted to a human friendly display, so that if a recipe has a 3 day passive period it says 3 days not 4320 minutes.</p>
 <p>The <code>estimated_servings</code> column has the number of servings for the basic recipe. In the shiny app I am building, this will adjust based on the scaling factor input by the user.</p>
-<pre class="r"><code>recipe_meta &lt;- tibble(
-  recipe_id = 1:2,
-  recipe_name = c(&quot;PBJ sandwich&quot;, &quot;Srambled eggs&quot;), 
-  attribution_id = 1:2, 
-  source = c(NA, NA),
-  notes = c(&quot;Test entry&quot;, &quot;Another test&quot;),
-  active_time = c(2, 10),
-  passive_time = c(0, 2),
-  estimated_servings = c(1, NA)
-  )
+<pre class="r"><code># recipe_meta &lt;- tibble(
+#   recipe_id = 1:2,
+#   recipe_name = c(&quot;Apple Crisp&quot;, &quot;Srambled eggs&quot;), 
+#   attribution_id = c(4, 2), 
+#   recipe_source = c(NA, NA),
+#   recipe_notes = c(&quot;A simple and delicious dessert&quot;, &quot;Another test&quot;),
+#   active_time = c(15, 10),
+#   passive_time = c(40, 2),
+#   estimated_servings = c(9, NA)
+#   )
 
-recipe_meta </code></pre>
-<pre><code>## # A tibble: 2 x 8
-##   recipe_id recipe_name attribution_id source notes active_time passive_time
-##       &lt;int&gt; &lt;chr&gt;                &lt;int&gt; &lt;lgl&gt;  &lt;chr&gt;       &lt;dbl&gt;        &lt;dbl&gt;
-## 1         1 PBJ sandwi~              1 NA     Test~           2            0
-## 2         2 Srambled e~              2 NA     Anot~          10            2
-## # ... with 1 more variable: estimated_servings &lt;dbl&gt;</code></pre>
+recipe_meta &lt;-read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;recipe_meta&quot;)
+
+recipe_meta</code></pre>
+<pre><code>## # A tibble: 4 x 8
+##   recipe_id recipe_name attribution_id recipe_source recipe_notes active_time
+##       &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;              &lt;dbl&gt;
+## 1         1 Apple Crisp              4 NA            A simple an~          15
+## 2         2 Salad Bori~              2 NA            Boris made ~          10
+## 3         3 Grandma Do~              4 &lt;NA&gt;          Grandma Don~          NA
+## 4         4 Chicken Sa~              4 &lt;NA&gt;          Mara&#39;s take~          NA
+## # ... with 2 more variables: passive_time &lt;dbl&gt;, estimated_servings &lt;dbl&gt;</code></pre>
 </div>
 <div id="table-menu" class="section level3">
 <h3>Table: menu</h3>
-<p>The <code>menu</code> table assign recipes to different menus. A recipe can be assigned many different menus and menus can have many different recipes. Examples of a menu can be a specific event, such as “Mara’s 30th Birthday Party” or “New Year’s Eve 2018”, or to a generic event such as “Brunch” or “Picnic”.</p>
+<p>The <code>menu</code> table assign recipes to different menus. A recipe can be assigned many different menus and menus can have many different recipes. Examples of a menu can be a specific event, such as “Mara’s 30th Birthday Party” or “New Year’s Eve 2018”, or to a generic event such as “Brunch” or “Picnic”. The overall point of this table versus the tag feature, is that the menu represents curated menus that can be reused in part or in whole.</p>
 <p>The <code>recipe_id</code> links to the recipes and the <code>menu_id</code> will link the name of the menu in the <code>menu_names</code> table. The <code>menu_id</code> is a numeric value.</p>
-<pre class="r"><code>menu &lt;- tibble(
-  recipe_id = 1:2,
-  menu_id= 1:2
-)
+<pre class="r"><code># menu &lt;- tibble(
+#   recipe_id = 1:2,
+#   menu_id= c(4, NA)
+# )
+
+menu &lt;-read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;menu&quot;)
 
 menu</code></pre>
 <pre><code>## # A tibble: 2 x 2
-##   recipe_id menu_id
-##       &lt;int&gt;   &lt;int&gt;
-## 1         1       1
-## 2         2       2</code></pre>
+##   menu_id recipe_id
+##     &lt;dbl&gt; &lt;chr&gt;    
+## 1       1 4        
+## 2       2 NA</code></pre>
 </div>
 <div id="table-menu_names" class="section level3">
 <h3>Table: menu_names</h3>
 <p>The <code>menu_names</code> table provides the mapping between <code>menu_id</code> and the human friendly name of the menu in <code>menu_name</code>.</p>
-<pre class="r"><code>menu_names &lt;- tibble(
-  menu_id = 1:3,
-  menu_name = c(&quot;Thanksgiving 2020&quot;, &quot;New Years Eve 2019&quot;, &quot;Birthday Brunch June 2020&quot;)
- )
+<pre class="r"><code># menu_names &lt;- tibble(
+#   menu_id = 1:4,
+#   menu_name = c(&quot;Thanksgiving 2020&quot;, &quot;New Years Eve 2019&quot;, &quot;Birthday Brunch June 2020&quot;, &quot;Fall Dinner Party&quot;)
+#  )
+
+menu_names &lt;-read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;menu_names&quot;)
 
 menu_names</code></pre>
-<pre><code>## # A tibble: 3 x 2
+<pre><code>## # A tibble: 4 x 2
 ##   menu_id menu_name                
-##     &lt;int&gt; &lt;chr&gt;                    
+##     &lt;dbl&gt; &lt;chr&gt;                    
 ## 1       1 Thanksgiving 2020        
 ## 2       2 New Years Eve 2019       
-## 3       3 Birthday Brunch June 2020</code></pre>
+## 3       3 Birthday Brunch June 2020
+## 4       4 Fall Dinner Party</code></pre>
 </div>
 <div id="table-courses" class="section level3">
 <h3>Table: courses</h3>
 <p>The table <code>courses</code> contains information one what courses the recipe is likely to go well in. The <code>course_id</code> is a numeric value. A recipe might have multiple courses that it would go well in such as a side dish or as a main entree.</p>
-<pre class="r"><code>courses &lt;- tibble(
-  recipe_id = 1:2,
-  course_id = 1:2
-)
+<pre class="r"><code># courses &lt;- tibble(
+#   recipe_id = 1,
+#   course_id = 8
+# )
+
+courses &lt;-read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;courses&quot;)
 
 courses</code></pre>
-<pre><code>## # A tibble: 2 x 2
+<pre><code>## # A tibble: 6 x 2
 ##   recipe_id course_id
-##       &lt;int&gt;     &lt;int&gt;
-## 1         1         1
-## 2         2         2</code></pre>
+##       &lt;dbl&gt;     &lt;dbl&gt;
+## 1         1         8
+## 2         2         2
+## 3         2         5
+## 4         2         2
+## 5         3         8
+## 6         4         6</code></pre>
 </div>
 <div id="table-course_mapping" class="section level3">
 <h3>Table: course_mapping</h3>
 <p>The <code>course_mapping</code> table gives the name for the <code>course_id</code>. The <code>course_name</code> is a string.</p>
 <pre class="r"><code>course_mapping &lt;- tibble(
-  course_id = 1:2,
-  course_name = c(&quot;side dish&quot;, &quot;main entree&quot;)
-  
+  course_id = 1:10,
+  course_desc = c(&quot;Hors-d&#39;oeuvres&quot;, &quot;Amuse-gueule&quot;, &quot;Soup&quot;, &quot;Appetizer&quot;, &quot;Salad&quot;, &quot;Main Dish&quot;, &quot;Palate cleanser&quot;, &quot;Dessert&quot;, &quot;Drinks&quot;, &quot;Snack&quot;)
+
 )
 
 course_mapping </code></pre>
-<pre><code>## # A tibble: 2 x 2
-##   course_id course_name
-##       &lt;int&gt; &lt;chr&gt;      
-## 1         1 side dish  
-## 2         2 main entree</code></pre>
+<pre><code>## # A tibble: 10 x 2
+##    course_id course_desc    
+##        &lt;int&gt; &lt;chr&gt;          
+##  1         1 Hors-d&#39;oeuvres 
+##  2         2 Amuse-gueule   
+##  3         3 Soup           
+##  4         4 Appetizer      
+##  5         5 Salad          
+##  6         6 Main Dish      
+##  7         7 Palate cleanser
+##  8         8 Dessert        
+##  9         9 Drinks         
+## 10        10 Snack</code></pre>
 </div>
 </div>
 <div id="feedback-section" class="section level2">
 <h2>Feedback section</h2>
-<p>The feedback setion of the database includes tables that have to do with people’s reactions to recipes or their notes. It also contains the table with information about people in the database.</p>
+<p>The feedback section of the database includes tables that have to do with people’s reactions to recipes or their notes. It also contains the table with information about people in the database.</p>
 <div id="table-users" class="section level3">
 <h3>Table: users</h3>
 <p>The <code>users</code>table provides every user for the database with a unique numeric id called user_id. This table is also used to provide names for sources, who might not use the database, but need to be identified else where in the database. An example would be my late grandmother or Bonnie Frumkin Morales, one of my families favorite chefs whose Russian cookbook, <u>Kachka: A Return To Russian Cooking</u>, is the ground truth for modern Russian cuisine in our home.</p>
-<pre class="r"><code>users &lt;- tibble(
-  user_id = 1:6,
-  name = NA,
-  info = NA
-)
+<p>The <code>user_name</code> column is the person’s name stored as a string, and the <code>user_info</code> column are additional notes about the user stored as text.</p>
+<pre class="r"><code># users &lt;- tibble(
+#   user_id = 1:4,
+#   user_name = c(&quot;Mara Alexeev&quot;, &quot;Boris Alexeev&quot;, &quot;Denise Determan&quot;, &quot;Donna Goodman&quot;),
+#   user_info = NA
+# )
 
-users </code></pre>
-<pre><code>## # A tibble: 6 x 3
-##   user_id name  info 
-##     &lt;int&gt; &lt;lgl&gt; &lt;lgl&gt;
-## 1       1 NA    NA   
-## 2       2 NA    NA   
-## 3       3 NA    NA   
-## 4       4 NA    NA   
-## 5       5 NA    NA   
-## 6       6 NA    NA</code></pre>
+users &lt;-read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;users&quot;)
+
+users</code></pre>
+<pre><code>## # A tibble: 4 x 3
+##   user_id user_name       user_info          
+##     &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;              
+## 1       1 Mara Alexeev    Creator of Database
+## 2       2 Boris Alexeev   NA                 
+## 3       3 Denise Determan NA                 
+## 4       4 Donna Goodman   NA</code></pre>
 </div>
 <div id="table-difficulty" class="section level3">
 <h3>Table: difficulty</h3>
+<p>The <code>difficulty</code> table is how users can rate recipes. The <code>recipe_meta</code> table has a difficulty column, and that is from me as the owner of the database. However, people can keep their own notes and reviews of recipes and use the same scale but choose a different level for the recipe.</p>
 <pre class="r"><code>difficulty &lt;- tibble(
-  difficulty_rating = 1:5,
-  description = c(&quot;Very Easy&quot;, &quot;Easy&quot;, &quot;Moderately difficult&quot;, &quot;Difficult&quot;, &quot;Very Complex&quot;)
+  difficulty_rating = -2:2,
+  difficulty_desc = c(&quot;Very Easy&quot;, &quot;Easy&quot;, &quot;Moderately difficult&quot;, &quot;Difficult&quot;, &quot;Very Complex&quot;)
 )
 
 difficulty </code></pre>
 <pre><code>## # A tibble: 5 x 2
-##   difficulty_rating description         
+##   difficulty_rating difficulty_desc     
 ##               &lt;int&gt; &lt;chr&gt;               
-## 1                 1 Very Easy           
-## 2                 2 Easy                
-## 3                 3 Moderately difficult
-## 4                 4 Difficult           
-## 5                 5 Very Complex</code></pre>
+## 1                -2 Very Easy           
+## 2                -1 Easy                
+## 3                 0 Moderately difficult
+## 4                 1 Difficult           
+## 5                 2 Very Complex</code></pre>
 </div>
 <div id="table-users_notes" class="section level3">
 <h3>Table: users_notes</h3>
-<pre class="r"><code>users_notes &lt;- tibble(
-  user_id = 1:2,
-  recipe_id = 1:2,
-  date = c(20201023, 20200903),
-  note = c(&quot;My experience was...&quot;, &quot;I enjoyed...&quot;),
-  proxy_note = as.logical(TRUE, FALSE),
-  proxy_id = 3:4
-)
+<p>The <code>users_notes</code> table allows users to store notes about recipes. This is the bug report part of the recipe database. A user can have multiple notes for a recipe. The date allows a person to capture time data about the note, the note field is text. A note can be entered by a proxy then the <code>proxy_id</code> is the <code>user_id</code> of who did write the note. The use case for this is something like, I write a note for someone, say my young son, who can’t write his own notes yet. This would be for ideas about how to change the recipe, or if something needed to be fixed in the recipe.</p>
+<pre class="r"><code># users_notes &lt;- tibble(
+#   user_id = 1:2,
+#   recipe_id = 10:11,
+#   note_date = c(20201023, 20200903),
+#   user_note = c(&quot;Need to update recipe to correct mistake in step 8...&quot;, &quot;Too much sauce to noodle ratio...&quot;),
+#   proxy_id = 3:4
+# )
+
+users_notes &lt;-read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;users_notes&quot;)
 
 users_notes</code></pre>
-<pre><code>## # A tibble: 2 x 6
-##   user_id recipe_id     date note                 proxy_note proxy_id
-##     &lt;int&gt;     &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt;                &lt;lgl&gt;         &lt;int&gt;
-## 1       1         1 20201023 My experience was... TRUE              3
-## 2       2         2 20200903 I enjoyed...         TRUE              4</code></pre>
+<pre><code>## # A tibble: 2 x 5
+##   user_id recipe_id note_date           user_note                       proxy_id
+##     &lt;dbl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;                              &lt;dbl&gt;
+## 1       1        10 2020-10-23 00:00:00 Need to update recipe to corre~        3
+## 2       2        11 2020-09-03 00:00:00 Too much sauce to noodle ratio~       NA</code></pre>
 </div>
 <div id="table-ratings" class="section level3">
 <h3>Table: ratings</h3>
-<pre class="r"><code>ratings &lt;- tibble(
-  recipe_id = 1:2,
-  rating = 1:2,
-  rater_id = 1:2,
-  difficulty_rating = c(1, NA),
-  date = lubridate::ymd(c(20201023, 20200903)),
-  notes = c(&quot;Terrible&quot;, &quot;Would like to try with rye bread toast.&quot;)
-)
+<p>The <code>ratings</code> table is a way for users to rate recipes on and put in long text reviews. This is different from the <code>notes</code> table. The imagined case for this is collect ratings of recipes from both as an indicator of how much someone enjoyed it, to how difficult they found it to make if they cooked. The <code>try_again</code> column is a logical value if the person would try the recipe again. The required fields are <code>recipe_id</code> and at least one of <code>rating_id</code>, <code>eat_again</code>, or <code>difficulty_rating</code>.</p>
+<pre class="r"><code># ratings &lt;- tibble(
+#   recipe_id = 1:2,
+#   rating_id = c(0, 1),
+#   try_again = as.logical(c(1, 1)),
+#   rater_id = 1:2,
+#   difficulty_rating = c(0, NA),
+#   rating_date = lubridate::ymd(c(20201023, 20200903)),
+#   rating_note = c(&quot;Wonderful!&quot;, &quot;Would like to try with rye bread toast.&quot;),
+#   proxy_id = c(1,4)
+# )
+
+ratings &lt;-read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;ratings&quot;)
 
 ratings</code></pre>
-<pre><code>## # A tibble: 2 x 6
-##   recipe_id rating rater_id difficulty_rating date       notes                  
-##       &lt;int&gt;  &lt;int&gt;    &lt;int&gt;             &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;                  
-## 1         1      1        1                 1 2020-10-23 Terrible               
-## 2         2      2        2                NA 2020-09-03 Would like to try with~</code></pre>
+<pre><code>## # A tibble: 2 x 8
+##   recipe_id rating_id try_again rater_id difficulty_rati~ rating_date        
+##       &lt;dbl&gt;     &lt;dbl&gt; &lt;lgl&gt;        &lt;dbl&gt; &lt;chr&gt;            &lt;dttm&gt;             
+## 1         1         0 TRUE             1 0                2020-10-23 00:00:00
+## 2         2         1 TRUE             2 NA               2020-09-03 00:00:00
+## # ... with 2 more variables: rating_note &lt;chr&gt;, proxy_id &lt;dbl&gt;</code></pre>
+</div>
+<div id="table-rating_scale" class="section level3">
+<h3>Table: rating_scale</h3>
+<p>The <code>rating_scale</code> table maps the numeric value of the <code>rating_id</code> to a text factor in <code>rating_desc</code> that describes the numeric values’s meanings.</p>
+<p>The <code>rating</code> scale is a minus 2 to plus 2 scale which is highly favored in the Alexeev household. It has the benefit that the values 1 and 5 can be confused (which is the good value??), but that people are unlikely to think -2 is a good value to assign to a recipe.</p>
+<pre class="r"><code>rating_scale &lt;- tibble(
+  rating_id = -2:2,
+  rating_desc = c(&quot;Strongly disliked&quot;, &quot;Disliked&quot;, &quot;Indifferent&quot;, &quot;Enjoyed&quot;, &quot;Strongly Enjoyed&quot;)
+)
+
+rating_scale</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   rating_id rating_desc      
+##       &lt;int&gt; &lt;chr&gt;            
+## 1        -2 Strongly disliked
+## 2        -1 Disliked         
+## 3         0 Indifferent      
+## 4         1 Enjoyed          
+## 5         2 Strongly Enjoyed</code></pre>
 </div>
 </div>
 <div id="ingredients-section" class="section level2">
 <h2>Ingredients section</h2>
-<div id="table-ingredients_used" class="section level3">
-<h3>Table: ingredients_used</h3>
-<pre class="r"><code>ingredients_used &lt;- tibble(
-  recipe_id = 1,
-  ingredient_id = 1:4,
-  step_number = 1:4,
-  quantity = c(2, 3, 4, 5),
-  scaling_factor = 1,
-  unit = as_factor(c(&quot;slices&quot;, &quot;cups&quot;, &quot;grams&quot;, &quot;tablespoons&quot;)),
-  preparation = as_factor(c(&quot;chopped&quot;, &quot;diced&quot;, &quot;sliced&quot;, &quot;minced&quot;)),
-  notes = NA
-)
+<p>The <code>ingredients</code> section of the database has tables with information about ingredients needed for recipes and then also gives information about individual ingredients unrelated to any specific recipe such as where the ingredient is likely to be found in the grocery store. ### Table: ingredients_used</p>
+<pre class="r"><code># ingredients_used &lt;- tibble(
+#   recipe_id = 1,
+#   ingredient_id = c(2, 3, 4, 5),
+#   step_number = 1:4,
+#   quantity = c(2, 3, 4, 5),
+#   unit = as_factor(c(&quot;slices&quot;, &quot;cups&quot;, &quot;grams&quot;, &quot;tablespoons&quot;)),
+#   scaling_factor = 1,
+#   preparation = as_factor(c(&quot;chopped&quot;, &quot;diced&quot;, &quot;sliced&quot;, &quot;minced&quot;)),
+#   ingredient_note = NA
+# )
+
+
+
+ingredients_used &lt;- read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;ingredients_used&quot;)
 
 ingredients_used</code></pre>
-<pre><code>## # A tibble: 4 x 8
-##   recipe_id ingredient_id step_number quantity scaling_factor unit  preparation
-##       &lt;dbl&gt;         &lt;int&gt;       &lt;int&gt;    &lt;dbl&gt;          &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;      
-## 1         1             1           1        2              1 slic~ chopped    
-## 2         1             2           2        3              1 cups  diced      
-## 3         1             3           3        4              1 grams sliced     
-## 4         1             4           4        5              1 tabl~ minced     
-## # ... with 1 more variable: notes &lt;lgl&gt;</code></pre>
-</div>
+<pre><code>## # A tibble: 27 x 8
+##    recipe_id ingredient_id step_number quantity unit  scaling_factor preparation
+##        &lt;dbl&gt;         &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;      
+##  1         1             2           1      450 g                  1 peeled and~
+##  2         1             3           2      100 g                  1 &lt;NA&gt;       
+##  3         1             4           2        6 g                  1 ground     
+##  4         1             3           3      100 g                  1 &lt;NA&gt;       
+##  5         1             4           3        3 g                  1 ground     
+##  6         1             6           3      110 g                  1 &lt;NA&gt;       
+##  7         1             5           3      120 g                  1 cubed, 0.5~
+##  8         2             7           1       30 mL                 1 &lt;NA&gt;       
+##  9         2             8           1       15 mL                 1 &lt;NA&gt;       
+## 10         2             9           1       30 mL                 1 &lt;NA&gt;       
+## # ... with 17 more rows, and 1 more variable: ingredient_note &lt;lgl&gt;</code></pre>
 <div id="table-ingredients_info" class="section level3">
 <h3>Table: ingredients_info</h3>
-<pre class="r"><code>ingredients_info &lt;- tibble(
-  ingredient_id = 1,
-  name = &quot;Carrot&quot;,
-  season_att = as_factor(&quot;Fall&quot;),
-  category = as_factor(&quot;Vegetable&quot;),
-  store_location = as_factor(&quot;Produce&quot;),
-  ontology_info = &quot;http://purl.obolibrary.org/obo/FOODON_00001687&quot;
-)
+<p>The <code>ingredients_info</code> table links ingredients to ontology information for the ingredients. The onology is called “FoodOn” and is discussed in [Part 4].</p>
+<pre class="r"><code># ingredients_info &lt;- tibble(
+#   ingredient_id = c(1, 2, 3, 4, 5, 6),
+#   ingredient_name = c(&quot;Carrot&quot;, &quot;Apple, Gold Delicious&quot;, &quot;Sugar&quot;, &quot;Cinnamon&quot;, &quot;Butter&quot;, &quot;Flour&quot;), 
+#   season_attr = as_factor(c(&quot;Fall&quot;, &quot;Fall&quot;, &quot;None&quot;, &quot;None&quot;, &quot;None&quot;, &quot;None&quot;)),
+#   category = as_factor(c(&quot;Vegetable&quot;, &quot;Fruit&quot;, &quot;Dry good&quot;, &quot;Spice&quot;, &quot;Dairy&quot;, &quot;Dry Good&quot;)),
+#   store_location = c(&quot;Produce&quot;, &quot;Produce&quot;, &quot;Baking&quot;, &quot;Spice&quot;, &quot;Dairy&quot;, &quot;Baking&quot;),
+#   ontology_info = c(&quot;http://purl.obolibrary.org/obo/FOODON_00001687&quot;, &quot;http://www.ontobee.org/ontology/FOODON?iri=http://purl.obolibrary.org/obo/FOODON_03411245&quot;, &quot;http://www.ontobee.org/ontology/FOODON?iri=http://purl.obolibrary.org/obo/CHEBI_17992&quot;, &quot;http://www.ontobee.org/ontology/FOODON?iri=http://purl.obolibrary.org/obo/FOODON_03301556&quot;, &quot;http://www.ontobee.org/ontology/FOODON?iri=http://purl.obolibrary.org/obo/FOODON_03301777&quot;, &quot;http://www.ontobee.org/ontology/FOODON?iri=http://purl.obolibrary.org/obo/FOODON_03304534&quot;)
+# )
+
+ingredients_info &lt;- read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;ingredients_info&quot;)
 
 ingredients_info</code></pre>
-<pre><code>## # A tibble: 1 x 6
-##   ingredient_id name   season_att category store_location ontology_info         
-##           &lt;dbl&gt; &lt;chr&gt;  &lt;fct&gt;      &lt;fct&gt;    &lt;fct&gt;          &lt;chr&gt;                 
-## 1             1 Carrot Fall       Vegetab~ Produce        http://purl.obolibrar~</code></pre>
+<pre><code>## # A tibble: 23 x 6
+##    ingredient_id ingredient_name season_attr category store_location
+##            &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;         
+##  1             1 carrot          Fall        Vegetab~ Produce       
+##  2             2 apple, Golden ~ Fall        Fruit    Produce       
+##  3             3 sugar           None        Dry good Baking        
+##  4             4 cinnamon        None        Spice    Spice         
+##  5             5 butter          None        Dairy    Dairy         
+##  6             6 flour, all pur~ None        Dry Good Baking        
+##  7             7 mustard, yellow None        Condime~ Condiments    
+##  8             8 honey           None        Honey    Canned or jar~
+##  9             9 rice wine vine~ None        Vinegar  Vinegar       
+## 10            10 table salt      None        Spice    Spice         
+## # ... with 13 more rows, and 1 more variable: ontology_info &lt;chr&gt;</code></pre>
 </div>
 </div>
 <div id="collections-section" class="section level2">
 <h2>Collections section</h2>
-<div id="table-tags" class="section level3">
-<h3>Table: tags</h3>
-<pre class="r"><code>tags &lt;- tibble(
-  recipe_id = 1:2,
-  tag_id = 1:2)
+<p>The collections section allows users to tag recipes with a concept to allow personalized grouping. A recipe can have multiple tags. Tags can represent a concept like time of year the dish is often associated such as Thanksgiving, or it can tag the recipe with an idea like that it is a good dish for packed lunches. This also can tag the recipe with a concept like the type of cuisine it is, eg Russian. ### Table: tags</p>
+<pre class="r"><code># tags &lt;- tibble(
+#   recipe_id = 1,
+#   tag_id = 6)
+
+tags &lt;-  read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;tags&quot;)
 
 tags</code></pre>
-<pre><code>## # A tibble: 2 x 2
+<pre><code>## # A tibble: 6 x 2
 ##   recipe_id tag_id
-##       &lt;int&gt;  &lt;int&gt;
-## 1         1      1
-## 2         2      2</code></pre>
-</div>
+##       &lt;dbl&gt;  &lt;dbl&gt;
+## 1         1      6
+## 2         1      7
+## 3         2      7
+## 4         2      8
+## 5         2      9
+## 6         3      6</code></pre>
 <div id="table-tag_names" class="section level3">
 <h3>Table: tag_names</h3>
-<pre class="r"><code>tag_names &lt;- tibble(
-  tag_id = 1:4,
-  tag_description = as_factor(c(&quot;Christmas&quot;, &quot;New Years&quot;, &quot;Packed Lunch&quot;, &quot;Baby Food&quot;))
-)
+<pre class="r"><code># tag_names &lt;- tibble(
+#   tag_id = 1:6,
+#   tag_desc = as_factor(c(&quot;Christmas&quot;, &quot;New Years&quot;, &quot;Packed Lunch&quot;, &quot;Baby Food&quot;, &quot;Russian&quot;, &quot;Goodman Family Tradition&quot;))
+# )
+
+tag_names &lt;-  read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;tag_names&quot;)
 
 tag_names</code></pre>
-<pre><code>## # A tibble: 4 x 2
-##   tag_id tag_description
-##    &lt;int&gt; &lt;fct&gt;          
-## 1      1 Christmas      
-## 2      2 New Years      
-## 3      3 Packed Lunch   
-## 4      4 Baby Food</code></pre>
+<pre><code>## # A tibble: 10 x 2
+##    tag_id tag_desc                
+##     &lt;dbl&gt; &lt;chr&gt;                   
+##  1      1 Christmas               
+##  2      2 New Years               
+##  3      3 Packed Lunch            
+##  4      4 Baby Food               
+##  5      5 Russian                 
+##  6      6 Goodman Family Tradition
+##  7      7 Lacto-ovo vegetarian    
+##  8      8 Vegetarian              
+##  9      9 Vegan friendly          
+## 10     10 Vegan</code></pre>
 </div>
 </div>
 <div id="tools-and-techniques-section" class="section level2">
 <h2>Tools and Techniques section</h2>
 <div id="table-tools_needed" class="section level3">
 <h3>Table: tools_needed</h3>
-<pre class="r"><code>tools_needed &lt;- tibble(
-  recipe_id = 1,
-  tool_id = 1
-)
+<pre class="r"><code># tools_needed &lt;- tibble(
+#   recipe_id = 1,
+#   tool_id = 1
+# )
+
+tools_needed &lt;-  read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;tools_needed&quot;)
 
 tools_needed</code></pre>
 <pre><code>## # A tibble: 1 x 2
@@ -1930,146 +2030,148 @@ tools_needed</code></pre>
 </div>
 <div id="table-tool_info" class="section level3">
 <h3>Table: tool_info</h3>
-<pre class="r"><code>tool_info &lt;- tibble(
-  tool_id = 1:2,
-  name = as_factor(c(&quot;sous vide&quot;, &quot;large pot&quot;)),
-  cost = c(100, 20),
-  alternative = c(&quot;water bath&quot;, NA),
-  notes = NA
-)
+<pre class="r"><code># tool_info &lt;- tibble(
+#   tool_id = 1:7,
+#   tool_name = as_factor(c(&quot;chef&#39;s knife&quot;, &quot;peeler&quot;, &quot;measuring spoons&quot;, &quot;measuring cups&quot;, &quot;oven&quot;, &quot;sous vide&quot;, &quot;large pot&quot;)),
+#   tool_cost = NA,
+#   tool_alternative = NA,
+#   tool_note = NA
+# )
 
-tool_info </code></pre>
-<pre><code>## # A tibble: 2 x 5
-##   tool_id name       cost alternative notes
-##     &lt;int&gt; &lt;fct&gt;     &lt;dbl&gt; &lt;chr&gt;       &lt;lgl&gt;
-## 1       1 sous vide   100 water bath  NA   
-## 2       2 large pot    20 &lt;NA&gt;        NA</code></pre>
+tool_info &lt;-  read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;tool_info&quot;)
+
+tool_info</code></pre>
+<pre><code>## # A tibble: 7 x 5
+##   tool_id tool_name        tool_cost tool_alternative tool_note
+##     &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;            &lt;chr&gt;    
+## 1       1 chef&#39;s knife     NA        NA               NA       
+## 2       2 peeler           NA        NA               NA       
+## 3       3 measuring spoons NA        NA               NA       
+## 4       4 measuring cups   NA        NA               NA       
+## 5       5 oven             NA        NA               NA       
+## 6       6 sous vide        NA        NA               NA       
+## 7       7 large pot        NA        NA               NA</code></pre>
 </div>
 <div id="table-techniques_used" class="section level3">
 <h3>Table: techniques_used</h3>
-<pre class="r"><code>techniques_used &lt;- tibble(
-  recipe_id = 1, 
-  tech_id = c(1)
-)
+<pre class="r"><code># techniques_used &lt;- tibble(
+#   recipe_id = 2, 
+#   tech_id = c(1)
+# )
+
+techniques_used &lt;-  read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;techniques_used&quot;)
 
 techniques_used</code></pre>
 <pre><code>## # A tibble: 1 x 2
 ##   recipe_id tech_id
 ##       &lt;dbl&gt;   &lt;dbl&gt;
-## 1         1       1</code></pre>
+## 1         2       1</code></pre>
 </div>
 <div id="table-tech_info" class="section level3">
 <h3>Table: tech_info</h3>
-<pre class="r"><code>tech_info &lt;- tibble(
-  tech_id = 1,
-  name = &quot;Kneading&quot;, 
-  notes = &quot;As alternative can use bread setting on mixer.&quot;
-)
+<pre class="r"><code># tech_info &lt;- tibble(
+#   tech_id = 1,
+#   tech_name = &quot;Kneading&quot;, 
+#   tech_note = &quot;As alternative can use bread setting on mixer.&quot;
+# )
+
+tech_info &lt;-  read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;tech_info&quot;)
 
 tech_info</code></pre>
 <pre><code>## # A tibble: 1 x 3
-##   tech_id name     notes                                         
-##     &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;                                         
-## 1       1 Kneading As alternative can use bread setting on mixer.</code></pre>
+##   tech_id tech_name tech_note                                     
+##     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;                                         
+## 1       1 Kneading  As alternative can use bread setting on mixer.</code></pre>
 </div>
 </div>
 <div id="recipe-details-section" class="section level2">
 <h2>Recipe Details section</h2>
 <div id="table-steps" class="section level3">
 <h3>Table: steps</h3>
-<pre class="r"><code>steps &lt;- tibble(
-  recipe_id = 1,
-  step_number = 1,
-  directions = &quot;Place holder&quot;
-)
+<pre class="r"><code># steps &lt;- tibble(
+#   recipe_id = 1,
+#   step_number = c(1, 2, 3, 4),
+#   directions = c(&quot;Peel and slice **all apples** and place in baking dish.&quot;, &quot;Sprinkle **half of the sugar** and **2/3 of the cinnamon** over the apples. Mix to coat apples evenly.&quot;, &quot;In a separate bowl, mix the other **half of the sugar**, **1/3 of the cinnamon**, **all the flour**, and **all the butter**. Sprinkle mixture over apples.&quot;, &quot;Bake at 350F degrees for 40 minutes. The topping should be lightly browned.&quot;)
+# )
+
+steps &lt;-  read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;steps&quot;)
 
 steps</code></pre>
-<pre><code>## # A tibble: 1 x 3
-##   recipe_id step_number directions  
-##       &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;       
-## 1         1           1 Place holder</code></pre>
+<pre><code>## # A tibble: 15 x 4
+##    recipe_id version_id step_number directions                                  
+##        &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;                                       
+##  1         1          1           1 Peel and slice **all apples** and place in ~
+##  2         1          1           2 Sprinkle **half of the sugar** and **2/3 of~
+##  3         1          1           3 In a separate bowl, mix the other **half of~
+##  4         1          1           4 Bake at 350F degrees for 40 minutes. The to~
+##  5         1          2           1 Peel and slice **all apples**.              
+##  6         1          2           2 Coat apples with **half of the sugar** and ~
+##  7         1          2           3 Combine other **half of the sugar**, **1/3 ~
+##  8         1          2           4 Bake at 350F for 40 mins.                   
+##  9         2          1           1 To make dressing, whisk **mustard**, **hone~
+## 10         2          1           2 Drizzle **canola oil** over the dressing, w~
+## 11         2          1           3 Add **chopped shallots**, **drained capers*~
+## 12         2          1           4 To make the salad, combine the **heirloom t~
+## 13         4          1           1 **Salt** and **pepper** the **chicken**. So~
+## 14         4          1           2 Add cooled **chicken** to food processor. A~
+## 15         4          1           3 Season to taste with **Fox Pointe spice**.</code></pre>
 </div>
 <div id="table-variations" class="section level3">
 <h3>Table: variations</h3>
-<pre class="r"><code>variations &lt;- tibble(
-  recipe_id = 1,
-  variation_number = 1, 
-  variation_text = &quot;Instead of peanut butter try almond butter. It&#39;s worse.&quot;
-)
+<pre class="r"><code># variations &lt;- tibble(
+#   recipe_id = 99,
+#   variation_id = 101
+# )
+
+variations  &lt;- read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;variations&quot;)
+
 variations</code></pre>
-<pre><code>## # A tibble: 1 x 3
-##   recipe_id variation_number variation_text                                     
-##       &lt;dbl&gt;            &lt;dbl&gt; &lt;chr&gt;                                              
-## 1         1                1 Instead of peanut butter try almond butter. It&#39;s w~</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   recipe_id variation_id
+##       &lt;dbl&gt;        &lt;dbl&gt;
+## 1        99          101</code></pre>
 </div>
 <div id="table-tips" class="section level3">
 <h3>Table: tips</h3>
-<pre class="r"><code>tips &lt;- tibble(
-  recipe_id = 1,
-  tip_number = 1, 
-  tip_text = &quot;Can freeze overnight and will thaw by lunch if put in lunchbag.&quot;
-)
+<pre class="r"><code># tips &lt;- tibble(
+#   recipe_id = 99,
+#   tip_number = 1, 
+#   tip_text = &quot;Can freeze overnight and will thaw by lunch if put in lunchbag.&quot;
+# )
+
+tips &lt;- read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;tips&quot;)
 
 tips</code></pre>
 <pre><code>## # A tibble: 1 x 3
 ##   recipe_id tip_number tip_text                                                 
 ##       &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;                                                    
-## 1         1          1 Can freeze overnight and will thaw by lunch if put in lu~</code></pre>
-</div>
-<div id="table-dietary_modifications" class="section level3">
-<h3>Table: dietary_modifications</h3>
-<pre class="r"><code>dietary_modifications &lt;- tibble(
-  recipe_id = 1, 
-  modification_id = 1
-)
-
-dietary_modifications</code></pre>
-<pre><code>## # A tibble: 1 x 2
-##   recipe_id modification_id
-##       &lt;dbl&gt;           &lt;dbl&gt;
-## 1         1               1</code></pre>
-</div>
-<div id="table-dietary_modifications_id" class="section level3">
-<h3>Table: dietary_modifications_id</h3>
-<pre class="r"><code>dietary_modifications_id &lt;- tibble(
-   modification_id = 1,
-   mod_id_text = &quot;Vegan Friendly&quot;
-)
-
-dietary_modifications_id</code></pre>
-<pre><code>## # A tibble: 1 x 2
-##   modification_id mod_id_text   
-##             &lt;dbl&gt; &lt;chr&gt;         
-## 1               1 Vegan Friendly</code></pre>
-</div>
-<div id="table-abbr_recipes" class="section level3">
-<h3>Table: abbr_recipes</h3>
-<pre class="r"><code>abbr_recipes &lt;- tibble(
-  recipe_id = 1,
-  step_number = 1,
-  abbr_text = &quot;Place holder on abbreviated recipe step.&quot;
-)
-
-abbr_recipes</code></pre>
-<pre><code>## # A tibble: 1 x 3
-##   recipe_id step_number abbr_text                               
-##       &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;                                   
-## 1         1           1 Place holder on abbreviated recipe step.</code></pre>
+## 1        99          1 Can freeze overnight and will thaw by lunch if put in lu~</code></pre>
 </div>
 <div id="table-raw_recipe_input" class="section level3">
 <h3>Table: raw_recipe_input</h3>
-<pre class="r"><code>raw_recipe_input &lt;- tibble(
-  recipe_name = &quot;Grandma Donna&#39;s Hot Fudge Sauce&quot;,
-  recipe_id = 3,
-  input_text = &quot;Place holder&quot;
-)
+<pre class="r"><code># raw_recipe_input &lt;- tibble(
+#   recipe_name = &quot;Grandma Donna’s Chocolate Sauce&quot;,
+#   recipe_id = 2,
+#   raw_text = &quot;1/4 pound butter (one stick), 3 squares (3 oz) chocolate (this would be 12 now, as Bakers’ Chocolate comes in ¼ oz “squares”...used to be 1 oz squares. Just be mindful of whatever the brand is packaged as...that is, by weight.), 3 cups sugar, Dash salt, 1 tall can evaporated milk (Carnation Milk)
+# Melt butter and chocolate over hot water. (I use a double boiler.) Stir in sugar one tablespoon at a time. (This is tedious, but important to get smooth results.) Add milk and heat until sauce is velvety smooth and sugar has all been dissolved. When adding sugar, DON’T Panic! The mixture becomes VERY thick and sugar isn’t dissolving. Try to get it all added, if possible. Then add the milk. I use a whisk to stir. By the time it is done, no sugar crystals should remain.&quot;
+# )
+
+raw_recipe_input &lt;- read_excel(&quot;files/recipe_workbook.xlsx&quot;, 
+    sheet = &quot;raw_recipe_input&quot;)
 
 raw_recipe_input</code></pre>
-<pre><code>## # A tibble: 1 x 3
-##   recipe_name                     recipe_id input_text  
-##   &lt;chr&gt;                               &lt;dbl&gt; &lt;chr&gt;       
-## 1 Grandma Donna&#39;s Hot Fudge Sauce         3 Place holder</code></pre>
-<pre class="r"><code>write_csv(raw_recipe_input, &quot;./csv_files/raw_recipe_input.csv&quot;)</code></pre>
+<pre><code>## # A tibble: 3 x 3
+##   recipe_name            recipe_id raw_text                                     
+##   &lt;chr&gt;                      &lt;dbl&gt; &lt;chr&gt;                                        
+## 1 Grandma Donna’s Choco~         3 &quot;1/4 pound butter (one stick), 3 squares (3 ~
+## 2 Salad Borisa                   2 &quot;Salad Boris made up in “Code for Cooks” cla~
+## 3 Chicken Salad                  4 &quot;Sous vide peppered and salted boneless, ski~</code></pre>
 </div>
 </div>
 </div>
@@ -2086,9 +2188,8 @@ dbWriteTable(con_recipe_db, &quot;menu_names&quot;, menu_names, overwrite = TRUE
 dbWriteTable(con_recipe_db, &quot;courses&quot;, courses, overwrite = TRUE)
 dbWriteTable(con_recipe_db, &quot;course_mapping&quot;, course_mapping, overwrite = TRUE)
 dbWriteTable(con_recipe_db, &quot;steps&quot;, steps, overwrite = TRUE)
-dbWriteTable(con_recipe_db, &quot;dietary_modifications&quot;, dietary_modifications, overwrite = TRUE)
-dbWriteTable(con_recipe_db, &quot;dietary_modifications_id&quot;, dietary_modifications_id, overwrite = TRUE)
-dbWriteTable(con_recipe_db, &quot;abbr_recipes&quot;, abbr_recipes, overwrite = TRUE)
+dbWriteTable(con_recipe_db, &quot;ingredients_used&quot;, ingredients_used, overwrite = TRUE)
+dbWriteTable(con_recipe_db, &quot;ingredients_info&quot;, ingredients_info, overwrite = TRUE)
 dbWriteTable(con_recipe_db, &quot;variations&quot;, variations, overwrite = TRUE)
 dbWriteTable(con_recipe_db, &quot;tips&quot;, tips, overwrite = TRUE)
 dbWriteTable(con_recipe_db, &quot;raw_recipe_input&quot;, raw_recipe_input, overwrite = TRUE)
@@ -2102,67 +2203,180 @@ dbWriteTable(con_recipe_db, &quot;tech_info&quot;, tech_info, overwrite = TRUE)
 
 
 dbListTables(con_recipe_db)</code></pre>
-<pre><code>##  [1] &quot;abbr_recipes&quot;             &quot;course_mapping&quot;          
-##  [3] &quot;courses&quot;                  &quot;dietary_modifications&quot;   
-##  [5] &quot;dietary_modifications_id&quot; &quot;difficulty&quot;              
-##  [7] &quot;menu&quot;                     &quot;menu_names&quot;              
-##  [9] &quot;ratings&quot;                  &quot;raw_recipe_input&quot;        
-## [11] &quot;recipe_meta&quot;              &quot;steps&quot;                   
-## [13] &quot;tag_names&quot;                &quot;tags&quot;                    
-## [15] &quot;tech_info&quot;                &quot;techniques_used&quot;         
-## [17] &quot;tips&quot;                     &quot;tool_info&quot;               
-## [19] &quot;tools_needed&quot;             &quot;users&quot;                   
-## [21] &quot;users_notes&quot;              &quot;variations&quot;</code></pre>
+<pre><code>##  [1] &quot;course_mapping&quot;   &quot;courses&quot;          &quot;difficulty&quot;       &quot;ingredients_info&quot;
+##  [5] &quot;ingredients_used&quot; &quot;menu&quot;             &quot;menu_names&quot;       &quot;ratings&quot;         
+##  [9] &quot;raw_recipe_input&quot; &quot;recipe_meta&quot;      &quot;steps&quot;            &quot;tag_names&quot;       
+## [13] &quot;tags&quot;             &quot;tech_info&quot;        &quot;techniques_used&quot;  &quot;tips&quot;            
+## [17] &quot;tool_info&quot;        &quot;tools_needed&quot;     &quot;users&quot;            &quot;users_notes&quot;     
+## [21] &quot;variations&quot;</code></pre>
 </div>
 <div id="test-simple-queries-with-rsqlite" class="section level1">
 <h1>Test simple queries with RSQLite</h1>
 <pre class="r"><code>dbGetQuery(con_recipe_db, &quot;SELECT * FROM recipe_meta LIMIT 10&quot;)</code></pre>
-<pre><code>##   recipe_id   recipe_name attribution_id source        notes active_time
-## 1         1  PBJ sandwich              1     NA   Test entry           2
-## 2         2 Srambled eggs              2     NA Another test          10
-##   passive_time estimated_servings
-## 1            0                  1
-## 2            2                 NA</code></pre>
+<pre><code>##   recipe_id                     recipe_name attribution_id recipe_source
+## 1         1                     Apple Crisp              4            NA
+## 2         2                    Salad Borisa              2            NA
+## 3         3 Grandma Donna’s Chocolate Sauce              4          &lt;NA&gt;
+## 4         4                   Chicken Salad              4          &lt;NA&gt;
+##                                                             recipe_notes
+## 1                                         A simple and delicious dessert
+## 2 Boris made this recipe in a cooking class at Google in September 2017.
+## 3                                Grandma Donna&#39;s beloved chocolate sauce
+## 4                                Mara&#39;s take on Grandma Donna&#39;s original
+##   active_time passive_time estimated_servings
+## 1          15           40                  9
+## 2          10            0                  2
+## 3          NA           NA                 NA
+## 4          NA           NA                  8</code></pre>
 <pre class="r"><code>dbGetQuery(con_recipe_db, &quot;SELECT * FROM variations LIMIT 10&quot;)</code></pre>
-<pre><code>##   recipe_id variation_number
-## 1         1                1
-##                                            variation_text
-## 1 Instead of peanut butter try almond butter. It&#39;s worse.</code></pre>
-<pre class="r"><code>dbGetQuery(con_recipe_db, &quot;SELECT * FROM tag_names LIMIT 10&quot;)</code></pre>
-<pre><code>##   tag_id tag_description
-## 1      1       Christmas
-## 2      2       New Years
-## 3      3    Packed Lunch
-## 4      4       Baby Food</code></pre>
+<pre><code>##   recipe_id variation_id
+## 1        99          101</code></pre>
+<pre class="r"><code>dbGetQuery(con_recipe_db, &quot;SELECT * FROM ingredients_used LIMIT 10&quot;)</code></pre>
+<pre><code>##    recipe_id ingredient_id step_number quantity unit scaling_factor
+## 1          1             2           1      450    g              1
+## 2          1             3           2      100    g              1
+## 3          1             4           2        6    g              1
+## 4          1             3           3      100    g              1
+## 5          1             4           3        3    g              1
+## 6          1             6           3      110    g              1
+## 7          1             5           3      120    g              1
+## 8          2             7           1       30   mL              1
+## 9          2             8           1       15   mL              1
+## 10         2             9           1       30   mL              1
+##            preparation ingredient_note
+## 1    peeled and sliced              NA
+## 2                 &lt;NA&gt;              NA
+## 3               ground              NA
+## 4                 &lt;NA&gt;              NA
+## 5               ground              NA
+## 6                 &lt;NA&gt;              NA
+## 7  cubed, 0.5 cm sides              NA
+## 8                 &lt;NA&gt;              NA
+## 9                 &lt;NA&gt;              NA
+## 10                &lt;NA&gt;              NA</code></pre>
+<pre class="r"><code>dbGetQuery(con_recipe_db, &quot;SELECT * FROM ingredients_info LIMIT 10&quot;)</code></pre>
+<pre><code>##    ingredient_id         ingredient_name season_attr  category
+## 1              1                  carrot        Fall Vegetable
+## 2              2 apple, Golden Delicious        Fall     Fruit
+## 3              3                   sugar        None  Dry good
+## 4              4                cinnamon        None     Spice
+## 5              5                  butter        None     Dairy
+## 6              6      flour, all purpose        None  Dry Good
+## 7              7         mustard, yellow        None Condiment
+## 8              8                   honey        None     Honey
+## 9              9       rice wine vinegar        None   Vinegar
+## 10            10              table salt        None     Spice
+##            store_location
+## 1                 Produce
+## 2                 Produce
+## 3                  Baking
+## 4                   Spice
+## 5                   Dairy
+## 6                  Baking
+## 7              Condiments
+## 8  Canned or jarred goods
+## 9                 Vinegar
+## 10                  Spice
+##                                                                                ontology_info
+## 1                                             http://purl.obolibrary.org/obo/FOODON_00001687
+## 2  http://www.ontobee.org/ontology/FOODON?iri=http://purl.obolibrary.org/obo/FOODON_03411245
+## 3      http://www.ontobee.org/ontology/FOODON?iri=http://purl.obolibrary.org/obo/CHEBI_17992
+## 4  http://www.ontobee.org/ontology/FOODON?iri=http://purl.obolibrary.org/obo/FOODON_03301556
+## 5  http://www.ontobee.org/ontology/FOODON?iri=http://purl.obolibrary.org/obo/FOODON_03301777
+## 6  http://www.ontobee.org/ontology/FOODON?iri=http://purl.obolibrary.org/obo/FOODON_03304534
+## 7                                                                                       &lt;NA&gt;
+## 8                                                                                       &lt;NA&gt;
+## 9                                                                                       &lt;NA&gt;
+## 10                                                                                      &lt;NA&gt;</code></pre>
 </div>
 <div id="part-4-ontologies-and-terminologies" class="section level1">
 <h1>Part 4: Ontologies and Terminologies</h1>
+<p>• When, where and how you will use the terminology or ontology in your database?</p>
+<p>My ingredients table contains a field with the url linking to the FoodOn database. The future use for the link would be to link to outside the database potentially to a food purchasing entity that would allow for automating purchasing. Additionally, common names of some foods in English are often regional and do not map to the same item to people (eg yams and sweet potatoes, egg plant and aubergine. The FoodOn information could provide an unambiguous link to the item and also might be able to pull images of the food in a future iteration of the project.</p>
+<p>• Who develops the terminology or ontology?</p>
+<p>FoodOn was created by an open consortium of university researchers. It was started in 2015 by the <a href="https://foodon.org/about/">Hsiao Lab from University of British Columbia</a>.</p>
+<p>• How is it maintained?</p>
+<p>The project is open source and has a <a href="https://github.com/FoodOntology/foodon/issues">github repo</a> that people can contribute to and is currently quite active. Several research groups continue to develop it and it is funded by several universities and several governmental agencies from Canada.</p>
+<p>• How well does it meet Cimino’s desiderata?</p>
+<p>Content: Yes, the ontology is exanpansive and can be reused in a variety of areas. It continues to expand to meet new needs. The expansion is guided by developed rules and is regulated by a group.</p>
+<p>Nonvaguness/nonambiguity: Yes</p>
+<p>Code permanence: Yes. Terms can be deprecated but they are not removed. The deprecated term has links to point a user to the new terms.</p>
+<p>Nonsematic identifers: True.</p>
+<p>Polyhierarchy: Yes.</p>
+<p>Formal Definitions: Yes.</p>
+<p>Graularities: Yes. There is apple as term but then different cultivares have their own subterm from apple.</p>
+<p>• Why did you pick it?</p>
+<p>It was the most comprehensive and actively developed ontology in the area that I could find.</p>
+<p>• Were there alternatives?</p>
+<p>I could find no viable alternatives.</p>
 </div>
 <div id="part-5-analytics" class="section level1">
 <h1>Part 5: Analytics</h1>
 <div id="question-1" class="section level2">
 <h2>Question 1</h2>
-<p>Imagine I am feeling excited about celebrating New Years, but I am stuck in a rut of doing the same recipes for the past few years.</p>
-<div id="part-a" class="section level3">
-<h3>Part A</h3>
-<p>I could search the database to find ingredients that are in season around that time of the year and see if any recipes using them sound good.</p>
+<p>I am making two recipes and I want to make a combined shopping list with ingredients, but if ingredients are shared, I want to have them combined into one place on the list, eg 2 onions, not 1 onion listed two times on the list.</p>
+<pre class="r"><code>dbGetQuery(con_recipe_db, 
+&quot;SELECT ingredient_name, sum(quantity), unit, store_location
+FROM ingredients_used
+LEFT JOIN  ingredients_info ON ingredients_used.ingredient_id=ingredients_info.ingredient_id
+Where recipe_id = 1 OR 2
+group by ingredient_name, unit
+ORDER by store_location
+
+&quot;)</code></pre>
+<pre><code>##            ingredient_name sum(quantity)  unit         store_location
+## 1                     &lt;NA&gt;            NA  &lt;NA&gt;                   &lt;NA&gt;
+## 2               canola oil            60     g                 Baking
+## 3       flour, all purpose           110     g                 Baking
+## 4                   pecans            30     g                 Baking
+## 5                    sugar           200     g                 Baking
+## 6                   capers            20     g Canned or jarred goods
+## 7                    honey            15    mL Canned or jarred goods
+## 8          mustard, yellow            30    mL             Condiments
+## 9                   butter           120     g                  Dairy
+## 10      cranberries, dried            20     g           Dried fruits
+## 11       Persian cucumbers           150     g                Produce
+## 12 apple, Golden Delicious           450     g                Produce
+## 13                    corn           150     g                Produce
+## 14                jalapeño            20     g                Produce
+## 15                shallots            60     g                Produce
+## 16                 spinach            10 count                Produce
+## 17      tomatoes, heirloom           150     g                Produce
+## 18    black pepper, ground             2     g                  Spice
+## 19                cinnamon             9     g                  Spice
+## 20              table salt             2     g                  Spice
+## 21       rice wine vinegar            30    mL                Vinegar</code></pre>
 </div>
-<div id="part-b" class="section level3">
-<h3>Part B</h3>
-<p>I am traveling and staying at rental house, but I am going to host a dinner for New Years. I have a restricted number of kitchen equipment, so I want to only consider recipes in my “party” tag that have the equipment i have access to.</p>
-<pre class="r"><code># dbGetQuery(conn,&quot;SELECT * 
-#                  FROM recipes
-#                  LEFT JOIN sources ON source = id_source
-#                  WHERE source = 1&quot;)</code></pre>
-</div>
-<div id="question-2" class="section level3">
-<h3>Question 2</h3>
+<div id="question-2" class="section level2">
+<h2>Question 2</h2>
+<p>I hosting a family reuion for my mother’s side of the family, so I want to make some recipes from her mother, Donna Goodman. I also want to display which courses those recipes fall under, so I can see which other places I will need to round out my menu with recipes, perhaps from other Goodman family members.</p>
+<pre class="r"><code>dbGetQuery(con_recipe_db,&quot;SELECT recipe_name, user_name AS creator, recipe_notes, course_desc
+                 FROM recipe_meta
+                 Left join users on recipe_meta.attribution_id = users.user_id
+                 LEFT JOIN courses on recipe_meta.recipe_id = courses.recipe_id
+                 LEFT JOIN course_mapping ON courses.course_id = course_mapping.course_id
+                 WHERE attribution_id = 4&quot;)</code></pre>
+<pre><code>##                       recipe_name       creator
+## 1                     Apple Crisp Donna Goodman
+## 2 Grandma Donna’s Chocolate Sauce Donna Goodman
+## 3                   Chicken Salad Donna Goodman
+##                              recipe_notes course_desc
+## 1          A simple and delicious dessert     Dessert
+## 2 Grandma Donna&#39;s beloved chocolate sauce     Dessert
+## 3 Mara&#39;s take on Grandma Donna&#39;s original   Main Dish</code></pre>
+<div id="question-3" class="section level3">
+<h3>Question 3</h3>
 <p>My parents are coming to visit and but my vegan friend is also coming to dinner. I want to find dishes that my father has rated highly, but are also vegan friendly, so I don’t have to make two separate dinners.</p>
 </div>
 </div>
 </div>
 <div id="bonus-build-it" class="section level1">
 <h1>Bonus: Build it!</h1>
+<p>App.R and Global.R make up a working skeleton of an app to query and view the tables in relation to each other. I have plans to expand it to allow guided addition of recipes to write to the database and also an automated database query to make shopping lists.</p>
+<div id="github-repo" class="section level2">
+<h2>Github Repo</h2>
+<p><a href="701_database_project_MaraAlexeev">https://github.com/MaraAlexeev/701_database_project_MaraAlexeev</a></p>
+</div>
 <div id="details" class="section level2">
 <h2>Details</h2>
 <pre class="r"><code>sessionInfo()</code></pre>
@@ -2183,27 +2397,27 @@ dbListTables(con_recipe_db)</code></pre>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] DiagrammeR_1.0.6.1    yaml_2.2.1            datamodelr_0.2.2.9002
-##  [4] RSQLite_2.2.1         forcats_0.5.0         stringr_1.4.0        
-##  [7] dplyr_1.0.0           purrr_0.3.4           readr_1.3.1          
-## [10] tidyr_1.1.2           tibble_3.0.1          ggplot2_3.3.1        
-## [13] tidyverse_1.3.0      
+##  [1] readxl_1.3.1          DiagrammeR_1.0.6.1    yaml_2.2.1           
+##  [4] datamodelr_0.2.2.9002 RSQLite_2.2.1         forcats_0.5.0        
+##  [7] stringr_1.4.0         dplyr_1.0.0           purrr_0.3.4          
+## [10] readr_1.3.1           tidyr_1.1.2           tibble_3.0.1         
+## [13] ggplot2_3.3.1         tidyverse_1.3.0      
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] tidyselect_1.1.0   xfun_0.14          haven_2.3.0        colorspace_1.4-1  
 ##  [5] vctrs_0.3.0        generics_0.0.2     htmltools_0.5.0    utf8_1.1.4        
 ##  [9] blob_1.2.1         rlang_0.4.7        pillar_1.4.4       glue_1.4.1        
 ## [13] withr_2.2.0        DBI_1.1.0          RColorBrewer_1.1-2 bit64_4.0.5       
-## [17] dbplyr_1.4.4       modelr_0.1.8       readxl_1.3.1       lifecycle_0.2.0   
-## [21] munsell_0.5.0      gtable_0.3.0       cellranger_1.1.0   rvest_0.3.5       
-## [25] visNetwork_2.0.9   htmlwidgets_1.5.1  memoise_1.1.0      evaluate_0.14     
-## [29] knitr_1.28         fansi_0.4.1        broom_0.7.1        Rcpp_1.0.4.6      
-## [33] scales_1.1.1       backports_1.1.7    jsonlite_1.6.1     bit_4.0.4         
-## [37] fs_1.4.1           hms_0.5.3          digest_0.6.25      stringi_1.4.6     
-## [41] grid_4.0.2         cli_2.0.2          tools_4.0.2        magrittr_1.5      
-## [45] crayon_1.3.4       pkgconfig_2.0.3    ellipsis_0.3.1     xml2_1.3.2        
-## [49] reprex_0.3.0       lubridate_1.7.8    assertthat_0.2.1   rmarkdown_2.2     
-## [53] httr_1.4.1         rstudioapi_0.11    R6_2.4.1           compiler_4.0.2</code></pre>
+## [17] dbplyr_1.4.4       modelr_0.1.8       lifecycle_0.2.0    munsell_0.5.0     
+## [21] gtable_0.3.0       cellranger_1.1.0   rvest_0.3.5        visNetwork_2.0.9  
+## [25] htmlwidgets_1.5.1  memoise_1.1.0      evaluate_0.14      knitr_1.28        
+## [29] fansi_0.4.1        broom_0.7.1        Rcpp_1.0.4.6       scales_1.1.1      
+## [33] backports_1.1.7    jsonlite_1.6.1     bit_4.0.4          fs_1.4.1          
+## [37] hms_0.5.3          digest_0.6.25      stringi_1.4.6      grid_4.0.2        
+## [41] cli_2.0.2          tools_4.0.2        magrittr_1.5       crayon_1.3.4      
+## [45] pkgconfig_2.0.3    ellipsis_0.3.1     xml2_1.3.2         reprex_0.3.0      
+## [49] lubridate_1.7.8    assertthat_0.2.1   rmarkdown_2.2      httr_1.4.1        
+## [53] rstudioapi_0.11    R6_2.4.1           compiler_4.0.2</code></pre>
 </div>
 </div>
 

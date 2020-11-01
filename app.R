@@ -15,7 +15,7 @@ ui <- fluidPage(
 
             tabPanel(h2("Table Info"),
                      verbatimTextOutput("summary"),
-                     img(src='db_layout.png', align = "center")),
+                     img(src='database_layout_20201101.png', align = "center")),
 
 
 

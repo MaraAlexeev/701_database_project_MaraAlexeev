@@ -476,7 +476,6 @@ dbWriteTable(con_recipe_db, "course_mapping", course_mapping, overwrite = TRUE)
 dbWriteTable(con_recipe_db, "steps", steps, overwrite = TRUE)
 dbWriteTable(con_recipe_db, "ingredients_used", ingredients_used, overwrite = TRUE)
 dbWriteTable(con_recipe_db, "ingredients_info", ingredients_info, overwrite = TRUE)
-# dbWriteTable(con_recipe_db, "abbr_recipes", abbr_recipes, overwrite = TRUE)
 dbWriteTable(con_recipe_db, "variations", variations, overwrite = TRUE)
 dbWriteTable(con_recipe_db, "tips", tips, overwrite = TRUE)
 dbWriteTable(con_recipe_db, "raw_recipe_input", raw_recipe_input, overwrite = TRUE)
@@ -501,6 +500,42 @@ dbGetQuery(con_recipe_db, "SELECT * FROM ingredients_info LIMIT 10")
 ```
 # Part 4: Ontologies and Terminologies
 
+• When, where and how you will use the terminology or ontology in your database?
+
+My ingredients table contains a field with the url linking to the FoodOn database. The future use for the link would be to link to outside the database potentially to a food purchasing entity that would allow for automating purchasing. Additionally, common names of some foods in English are often regional and do not map to the same item to people (eg yams and sweet potatoes, egg plant and aubergine. The FoodOn information could provide an unambiguous link to the item and also might be able to pull images of the food in a future iteration of the project. 
+
+• Who develops the terminology or ontology?
+
+FoodOn was created by an open consortium of university researchers. It was started in 2015 by the [Hsiao Lab from University of British Columbia](https://foodon.org/about/). 
+
+• How is it maintained?
+
+The project is open source and has a [github repo](https://github.com/FoodOntology/foodon/issues) that people can contribute to and is currently quite active. Several research groups continue to develop it and it is funded by several universities and several governmental agencies from Canada. 
+
+• How well does it meet Cimino’s desiderata?
+
+Content: Yes, the ontology is exanpansive and can be reused in a variety of areas. It continues to expand to meet new needs. The expansion is guided by developed rules and is regulated by a group.
+
+Nonvaguness/nonambiguity: Yes 
+
+Code permanence: Yes. Terms can be deprecated but they are not removed. The deprecated term has links to point a user to the new terms. 
+
+Nonsematic identifers: True.
+
+Polyhierarchy: Yes.
+
+Formal Definitions: Yes.
+
+Graularities: Yes. There is apple as term but then different cultivares have their own subterm from apple. 
+
+• Why did you pick it?
+
+It was the most comprehensive and actively developed ontology in the area that I could find.
+
+• Were there alternatives?
+
+I could find no viable alternatives.
+
 # Part 5: Analytics
 
 ## Question 1
@@ -520,27 +555,29 @@ ORDER by store_location
 ```
 
 
+## Question 2
 
-### Part A
-
-I could search the database to find ingredients that are in season around that time of the year and see if any recipes using them sound good.
-
-### Part B
-
-I am traveling and staying at rental house, but I am going to host a dinner for New Years. I have a restricted number of kitchen equipment, so I want to only consider recipes in my "party" tag that have the equipment i have access to. 
+I hosting a family reuion for my mother's side of the family, so I want to make some recipes from her mother, Donna Goodman. I also want to display which courses those recipes fall under, so I can see which other places I will need to round out my menu with recipes, perhaps from other Goodman family members.
 ```{r}
-# dbGetQuery(conn,"SELECT * 
-#                  FROM recipes
-#                  LEFT JOIN sources ON source = id_source
-#                  WHERE source = 1")
+dbGetQuery(con_recipe_db,"SELECT recipe_name, user_name AS creator, recipe_notes, course_desc
+                 FROM recipe_meta
+                 Left join users on recipe_meta.attribution_id = users.user_id
+                 LEFT JOIN courses on recipe_meta.recipe_id = courses.recipe_id
+                 LEFT JOIN course_mapping ON courses.course_id = course_mapping.course_id
+                 WHERE attribution_id = 4")
 ```
 
-### Question 2
+
+### Question 3
 
 My parents are coming to visit and but my vegan friend is also coming to dinner. I want to find dishes that my father has rated highly, but are also vegan friendly, so I don't have to make two separate dinners. 
 
 # Bonus: Build it!
 
+App.R and Global.R make up a working skeleton of an app to query and view the tables in relation to each other. I have plans to expand it to allow guided addition of recipes to write to the database and also an automated database query to make shopping lists. 
+
+## Github Repo
+[https://github.com/MaraAlexeev/701_database_project_MaraAlexeev](701_database_project_MaraAlexeev)
 
 ## Details
 ```{r}
