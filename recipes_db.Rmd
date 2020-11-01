@@ -474,9 +474,9 @@ dbWriteTable(con_recipe_db, "menu_names", menu_names, overwrite = TRUE)
 dbWriteTable(con_recipe_db, "courses", courses, overwrite = TRUE)
 dbWriteTable(con_recipe_db, "course_mapping", course_mapping, overwrite = TRUE)
 dbWriteTable(con_recipe_db, "steps", steps, overwrite = TRUE)
-dbWriteTable(con_recipe_db, "dietary_modifications", dietary_modifications, overwrite = TRUE)
-dbWriteTable(con_recipe_db, "dietary_modifications_id", dietary_modifications_id, overwrite = TRUE)
-dbWriteTable(con_recipe_db, "abbr_recipes", abbr_recipes, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "ingredients_used", ingredients_used, overwrite = TRUE)
+dbWriteTable(con_recipe_db, "ingredients_info", ingredients_info, overwrite = TRUE)
+# dbWriteTable(con_recipe_db, "abbr_recipes", abbr_recipes, overwrite = TRUE)
 dbWriteTable(con_recipe_db, "variations", variations, overwrite = TRUE)
 dbWriteTable(con_recipe_db, "tips", tips, overwrite = TRUE)
 dbWriteTable(con_recipe_db, "raw_recipe_input", raw_recipe_input, overwrite = TRUE)
@@ -496,7 +496,8 @@ dbListTables(con_recipe_db)
 ```{r}
 dbGetQuery(con_recipe_db, "SELECT * FROM recipe_meta LIMIT 10")
 dbGetQuery(con_recipe_db, "SELECT * FROM variations LIMIT 10")
-dbGetQuery(con_recipe_db, "SELECT * FROM tag_names LIMIT 10")
+dbGetQuery(con_recipe_db, "SELECT * FROM ingredients_used LIMIT 10")
+dbGetQuery(con_recipe_db, "SELECT * FROM ingredients_info LIMIT 10")
 ```
 # Part 4: Ontologies and Terminologies
 
@@ -504,7 +505,21 @@ dbGetQuery(con_recipe_db, "SELECT * FROM tag_names LIMIT 10")
 
 ## Question 1
 
-Imagine I am feeling excited about celebrating New Years, but I am stuck in a rut of doing the same recipes for the past few years. 
+I am making two recipes and I want to make a combined shopping list with ingredients, but if ingredients are shared, I want to have them combined into one place on the list, eg 2 onions, not 1 onion listed two times on the list. 
+```{r}
+dbGetQuery(con_recipe_db, 
+"SELECT ingredient_name, sum(quantity), unit, store_location
+FROM ingredients_used
+LEFT JOIN  ingredients_info ON ingredients_used.ingredient_id=ingredients_info.ingredient_id
+Where recipe_id = 1 OR 2
+group by ingredient_name, unit
+ORDER by store_location
+
+")
+
+```
+
+
 
 ### Part A
 

@@ -1,0 +1,10 @@
+library(shiny)
+library(DBI)
+library(RMySQL)
+library(dplyr)
+library(dbplyr)
+library(shinyjs)
+library(digest)
+library(DT)
+
+con_recipe_db <- dbConnect(RSQLite::SQLite(), "recipesDB.db")
