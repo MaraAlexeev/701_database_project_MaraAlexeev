@@ -1,0 +1,72 @@
+---
+title: "Recipe Card Generation"
+output: html_document
+params:
+   recipe_card: 1
+   version_recipe: 1
+---
+
+```{r meta, include = FALSE}
+library(tidyverse)
+library(RSQLite)
+
+con_recipe_db <- dbConnect(RSQLite::SQLite(), "recipesDB.db")
+
+recipe_name_query <- paste("SELECT recipe_name FROM recipe_meta WHERE recipe_id = ", params$recipe_card)
+recipe_name <- dbGetQuery(con_recipe_db, recipe_name_query)
+```
+# **`r recipe_name`**
+
+## Shoppings List
+
+```{r, echo= FALSE, results= 'asis'}
+search_query_ingredients <- paste("SELECT ingredient_name, sum(quantity), unit, store_location FROM ingredients_used LEFT JOIN  ingredients_info ON ingredients_used.ingredient_id=ingredients_info.ingredient_id Where recipe_id = ", params$recipe_card, "group by ingredient_name, unit ORDER by store_location")
+
+
+shopping_list_ingredients <- dbGetQuery(con_recipe_db, search_query_ingredients)
+
+knitr::kable(shopping_list_ingredients)
+```
+
+## Ingredient Preparation
+```{r ingredient prep, echo= FALSE, results= 'asis'}
+search_query_ingredient_prep <- paste("SELECT step_number, ingredient_name, quantity, unit, preparation
+FROM ingredients_used
+LEFT JOIN  ingredients_info 
+ON ingredients_used.ingredient_id=ingredients_info.ingredient_id
+Where recipe_id = ", params$recipe_card, "ORDER BY step_number")
+
+
+list_ingredients_preparation <- dbGetQuery(con_recipe_db, search_query_ingredient_prep)
+
+knitr::kable(list_ingredients_preparation)
+
+```
+
+## Directions
+```{r time, echo=FALSE}
+recipe_active_time_query <- paste("SELECT active_time FROM recipe_meta WHERE recipe_id = ", params$recipe_card)
+recipe_active_time <- dbGetQuery(con_recipe_db, recipe_active_time_query)
+
+recipe_passive_time_query <- paste("SELECT passive_time FROM recipe_meta WHERE recipe_id = ", params$recipe_card)
+recipe_passive_time <- dbGetQuery(con_recipe_db, recipe_passive_time_query)
+```
+
+**Active time: ** `r recipe_active_time` minutes
+**Passive time: ** `r recipe_passive_time` minutes
+```{r directions, echo= FALSE, results= 'asis'}
+search_query_directions <- paste("SELECT step_number, directions
+FROM steps
+Where recipe_id = ", params$recipe_card, "AND version_id = ", params$version_recipe,
+"ORDER BY step_number")
+
+
+list_directions <- dbGetQuery(con_recipe_db, search_query_directions)
+
+knitr::kable(list_directions)
+
+```
+
+
+
+

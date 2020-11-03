@@ -1,9 +1,13 @@
 ---
-title: "recipes"
+title: "Recipe Database"
 author: "Mara Alexeev"
 date: "10/8/2020"
-output: html_document
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
 ---
+
 # Part 1: Problem Definition
 I love to cook. However, recipe storage is a bit complicated because recipes I use come from so many different sources: cookbooks, emails, online, note cards, printed papers, my memory! For several years, I have wanted to come up with a recipe storage system that can harmonize my recipes and also give me some functionality that is otherwise not present with many formats--scaling, changing units, etc--and that I could eventually turn into a website that I can share with family and friends or just have for myself if traveling. 
 
@@ -11,13 +15,15 @@ Cooking is one thing, but shopping and menu planning are actually the bigger iss
 
 I actually wrote a [blog post](https://www.maraalexeev.com/2020/04/12/recipe-storage/) about the topic back in April 2020. 
 
+So I have decided to finally take the plunge with this assignment to make the database! I hope that I can use these COVID times of no dinner parties to put my energy into making this a great product that will help me in the years to come. 
+
 # Part 2: Requirements Gathering
 
 ## Users
 
-I imagine my users will be myself, my husband, my brothers, and several close friends. I want it to be available for use to others beyond this circle, but with read-only capacity. 
+I imagine my users will be myself, my husband, my brothers, and several close friends. I want it to be available for use to others beyond this circle, but with read-only capacity. I plan to post it on github and allow others to fork (yay for food puns!) it for their own uses.
 
-If the database works very well, I might also offer it to a cousin who runs a resturant to see if he would find a verison for himself to be helpful. 
+If the database works very well, I might also offer it to a cousin who runs a restaurant to see if he would find a venison for himself to be helpful. 
 
 ## Uses
 
@@ -26,9 +32,9 @@ If the database works very well, I might also offer it to a cousin who runs a re
 3. Create menus
 4. Aggregate shopping lists from selected recipes
 5. Search for recipes by different characteristics
-  + Ingredients (eg what's in season, what they have at home already)
-  + Holiday favorites
-  + Dietary restrictions (eg vegetarian, vegan)
+    + Ingredients (eg what's in season, what they have at home already)
+    + Holiday favorites
+    + Dietary restrictions (eg vegetarian, vegan)
 6. Rate recipes
 7. Find recipes that pair well with others
 
@@ -39,9 +45,9 @@ If the database works very well, I might also offer it to a cousin who runs a re
 3. Equipment needed
 4. Ratings from different people over time
 5. General information about ingredients
-  + When they are in season
-  + Where they are typically found in the grocery store
-  + What form are they needed for the recipe (eg cubed, diced)
+    + When they are in season
+    + Where they are typically found in the grocery store
+    + What form are they needed for the recipe (eg cubed, diced)
 
 ## Updates to database
 
@@ -52,10 +58,10 @@ I anticipate that people will frequently add to recipes to the database but that
 Several analytic tools I have considered:
 
 1. Looking up recipes that are suitable for guests with different dietary restrictions
-2. Looking up some ones rating of a dish before making it again for them
+2. Looking up some one's rating of a dish before making it again for them
 3. Reviewing the notes of people giving ratings to see if there were suggestions for modifications or pairings
 4. Making weekly meal planning simpler!
-  + What recipes have common features that could allow me to minimize my time in the kitchen? (Eg making more of a particular thing that could be used in multiple meals for the week.)
+    + What recipes have common features that could allow me to minimize my time in the kitchen? (Eg making more of a particular thing that could be used in multiple meals for the week.)
 
 # Part 3: Database Design
 
@@ -66,31 +72,36 @@ library(RSQLite)
 library(datamodelr)
 library(yaml)
 library(DiagrammeR)
+library(DiagrammeRsvg)
+library(rsvg)
 library(readxl)
+library(prettydoc)
 ```
 
-```{r}
-dm <- dm_read_yaml("./recipe_db.yml")
-graph <- dm_create_graph(dm, rankdir = "BT")
-database_layout <- dm_render_graph(graph)
-database_layout
+## Database layout
+```{r, database layout}
+dm_recipe <- dm_read_yaml("./recipe_db.yml")
+recipe_graph <- dm_create_graph(dm_recipe, rankdir = "BT")
+recipe_database_layout <- dm_render_graph(recipe_graph)
+recipe_database_layout
 
 ```
-
 
 # Create tibbles for all tables in database
 
-## Metadata section
+## Metadata Section
+
+The metadata section of database information about the recipe and how an individual recipe might connect to other recipes to form menus, what courses the recipe is typically served in, and what other recipes are similar to it (eg a seafood paella and a vegetarian paella.)
 
 ### Table: recipe_meta 
 
 This table contains the high level information about the recipe. Every recipe should only have a single entry in this form. 
 
-The `recipe_id` column contains an numeric id that uniquely idenitifies the recipe. The number has no sematic meaning; it is assigned as the recipe is added to the database to the next available integer value. I have considered that a recipe with important variations could be nested under the value. For example, a pasta dish could be 1 and then variations of it could be 1.1, 1.2, etc. 
+The `recipe_id` column contains an numeric id that uniquely identifies the recipe. The number has no semantic meaning; it is assigned as the recipe is added to the database to the next available integer value. I have considered that a recipe with important variations could be nested under the value. For example, a pasta dish could be 1 and then variations of it could be 1.1, 1.2, etc. However, I decided it would be better for ever recipe to be distinct and instead have variations of recipes linked together by information from the `variations` table. 
 
 The `recipe_name` is the string of text that the recipe is called that would be referred to by people in speech or likely when searching for a recipe.
 
-The `attribution_id` is a numeric value assigned to the source of the recipe. 
+The `attribution_id` is a numeric value assigned to the creator of the recipe. 
 
 The `recipe_source` is a string that specifies the location if applicable that the recipe can be found at. Examples might be a URL or a book and page number. 
 
@@ -180,6 +191,14 @@ course_mapping <- tibble(
 
 course_mapping 
 ```
+### Table: variations
+The `variations` table includes pairs of recipes that are closely related to each other have distinct ingredients or steps. For example, a pasta dish might have a meat version and a non meat version but are nearly identical in other respects. 
+```{r}
+variations <-read_excel("files/recipe_workbook.xlsx", 
+    sheet = "variations")
+
+variations
+```
 
 ## Feedback section
 
@@ -187,7 +206,7 @@ The feedback section of the database includes tables that have to do with people
 
 ### Table: users
 
-The `users`table provides every user for the database with a unique numeric id called user_id. This table is also used to provide names for sources, who might not use the database, but need to be identified else where in the database. An example would be my late grandmother or Bonnie Frumkin Morales, one of my families favorite chefs whose Russian cookbook, <u>Kachka: A Return To Russian Cooking</u>, is the ground truth for modern Russian cuisine in our home.
+The `users`table provides every user for the database with a unique numeric id called user_id. This table is also used to provide names for sources, who might not use the database, but need to be identified else where in the database. An example would be my late grandmother or Bonnie Frumkin Morales, one of my family's favorite chefs whose Russian cookbook, <u>Kachka: A Return To Russian Cooking</u>, is the ground truth for modern Russian cuisine in our home.
 
 The `user_name` column is the person's name stored as a string, and the `user_info` column are additional notes about the user stored as text. 
 ```{r}
@@ -341,6 +360,7 @@ tag_names
 
 ## Tools and Techniques section
 
+These tables include information about what is required to make the recipes excluding the ingredients. The `tools` table and `tool_info` tables include things like knives, equipment, types of pans, etc needed to make the recipe and some information on substitutions. 
 ### Table: tools_needed 
 ```{r}
 # tools_needed <- tibble(
@@ -371,6 +391,8 @@ tool_info
 ```
 
 ### Table: techniques_used
+
+The `techniques_used` and `tech_info` tables include information about what special techniques, excluding things like washing, cutting, peeling, that are needed for the recipe. These become important for high difficulty recipes that the novice cook would not be familiar with. 
 ```{r}
 # techniques_used <- tibble(
 #   recipe_id = 2, 
@@ -399,8 +421,11 @@ tech_info
 ```
 
 ## Recipe Details section
+The recipes details section contains 3 tables that include the information on the precise steps to make a recipe. 
 
 ### Table: steps
+
+The `steps` table includes the directions to create the recipe. The `version_id` replaces a different table that was originally included as a separate table that included abbreviated versions of the recipe. As I was building the database I realized it was easier to have a recipe with different versions in this table and not need to worry about updating other tables in the ingredients section and metadata section. The Apple Crisp Recipe is an example of this. Note that ingredients are bolded for help when following directions. Also note that the recipe gives ratios of ingredients. I pondered this decision for multiple days before deciding on ratios instead of absolute values to allow for easier development later as I build up the scaling option in the Shiny app. 
 ```{r}
 # steps <- tibble(
 #   recipe_id = 1,
@@ -411,23 +436,12 @@ tech_info
 steps <-  read_excel("files/recipe_workbook.xlsx", 
     sheet = "steps")
 
-steps
+head(steps)
 
 ```
 
-### Table: variations
-```{r}
-# variations <- tibble(
-#   recipe_id = 99,
-#   variation_id = 101
-# )
-
-variations  <- read_excel("files/recipe_workbook.xlsx", 
-    sheet = "variations")
-
-variations
-```
 ### Table: tips
+The `tips` table includes tips about recipes. The inclusion of this table in the next version is under debate as it seems like tips and user_notes could be combined perhaps with a note type indicating what the note was about (eg tip, bug, to do.)
 ```{r}
 # tips <- tibble(
 #   recipe_id = 99,
@@ -444,6 +458,7 @@ tips
 
 
 ### Table: raw_recipe_input
+The `raw_recipe_input` is the quick and dirty way to get a recipe into the system for future processing for full integration into the system. This is something my mother could do via the shiny app that doesn't require special knowledge of the database and is easy to submit to me for inclusion in the database. 
 ```{r}
 # raw_recipe_input <- tibble(
 #   recipe_name = "Grandma Donna’s Chocolate Sauce",
@@ -462,6 +477,7 @@ raw_recipe_input
 
 
 # Create .db files with RSQLite
+This is how I built the database with the RSQlite package. 
 ```{r}
 con_recipe_db <- dbConnect(RSQLite::SQLite(), "recipesDB.db")
 dbWriteTable(con_recipe_db, "recipe_meta", recipe_meta, overwrite = TRUE)
@@ -492,27 +508,58 @@ dbListTables(con_recipe_db)
 
 ```
 # Test simple queries with RSQLite
-```{r}
-dbGetQuery(con_recipe_db, "SELECT * FROM recipe_meta LIMIT 10")
-dbGetQuery(con_recipe_db, "SELECT * FROM variations LIMIT 10")
-dbGetQuery(con_recipe_db, "SELECT * FROM ingredients_used LIMIT 10")
-dbGetQuery(con_recipe_db, "SELECT * FROM ingredients_info LIMIT 10")
+```{r, results= 'asis'}
+test_1 <- dbGetQuery(con_recipe_db, "SELECT * FROM recipe_meta LIMIT 10")
+
+
+knitr::kable(test_1)
 ```
+```{r, results= 'asis'}
+test_2 <-  dbGetQuery(con_recipe_db, "SELECT * FROM ingredients_used LIMIT 10")
+
+knitr::kable(test_2)
+```
+
+```{r, results= 'asis'}
+test_3 <-  dbGetQuery(con_recipe_db, "SELECT * FROM ingredients_info LIMIT 10")
+
+knitr::kable(test_3)
+```
+
+```{r, results= 'asis'}
+test_4 <- dbGetQuery(con_recipe_db, "SELECT * FROM recipe_meta WHERE recipe_name LIKE '%salad%'")
+
+knitr::kable(test_4)
+```
+
+Note the difference between of the recipes versions.
+```{r full vs abbr recipes, results= 'asis'}
+recipe_comparison <- dbGetQuery(con_recipe_db, 
+"SELECT recipe_name, steps.recipe_id, version_id, step_number, directions
+FROM steps
+LEFT JOIN  recipe_meta ON steps.recipe_id=recipe_meta.recipe_id
+Where recipe_meta.recipe_id = 1
+ORDER by steps.recipe_id, version_id")
+
+knitr::kable(recipe_comparison)
+```
+
 # Part 4: Ontologies and Terminologies
 
 • When, where and how you will use the terminology or ontology in your database?
 
-My ingredients table contains a field with the url linking to the FoodOn database. The future use for the link would be to link to outside the database potentially to a food purchasing entity that would allow for automating purchasing. Additionally, common names of some foods in English are often regional and do not map to the same item to people (eg yams and sweet potatoes, egg plant and aubergine. The FoodOn information could provide an unambiguous link to the item and also might be able to pull images of the food in a future iteration of the project. 
+My ingredients table contains a field with the url linking to the FoodOn database. The future use for the link would be to link to outside the database potentially to a food purchasing entity that would allow for automating purchasing. Additionally, common names of some foods in English are often regional and do not map to the same item to people (eg yams and sweet potatoes, eggplant and aubergine. The FoodOn information could provide an unambiguous link to the item and also might be able to pull images of the food in a future iteration of the project. 
 
 • Who develops the terminology or ontology?
 
-FoodOn was created by an open consortium of university researchers. It was started in 2015 by the [Hsiao Lab from University of British Columbia](https://foodon.org/about/). 
+FoodOn continues to be developed by an open consortium of university researchers. It was started in 2015 by the [Hsiao Lab from University of British Columbia](https://foodon.org/about/). 
 
 • How is it maintained?
 
 The project is open source and has a [github repo](https://github.com/FoodOntology/foodon/issues) that people can contribute to and is currently quite active. Several research groups continue to develop it and it is funded by several universities and several governmental agencies from Canada. 
 
 • How well does it meet Cimino’s desiderata?
+Overall the ontology seems to be very informed on the desiderata and build off the structures of other ontologies. 
 
 Content: Yes, the ontology is exanpansive and can be reused in a variety of areas. It continues to expand to meet new needs. The expansion is guided by developed rules and is regulated by a group.
 
@@ -526,7 +573,15 @@ Polyhierarchy: Yes.
 
 Formal Definitions: Yes.
 
-Graularities: Yes. There is apple as term but then different cultivares have their own subterm from apple. 
+Granularities: Yes. There is apple as term but then different cultivares have their own subterm from apple. 
+
+Multiple Consistent Views: Yes
+
+Representing Context: Yes the whole point of the ontology is to put food in context from every part of its lifecycle to how it is grown and harvested to how it is transformed in preservation and cooking.
+
+Evolve Gracefully: Yes! This is a great strength of the project that is very transparent about its changes and has active discussions on its github account on how to adapt the ontology as it grows. 
+
+Recognize Redundancy: This is the least clear. I could not find an example of this, but I think it is likely after I read the curation section of the ontology that discussed how terms might be coded differently but mean the same thing and should map to the same idea (boneless vs deboned.) 
 
 • Why did you pick it?
 
@@ -541,8 +596,8 @@ I could find no viable alternatives.
 ## Question 1
 
 I am making two recipes and I want to make a combined shopping list with ingredients, but if ingredients are shared, I want to have them combined into one place on the list, eg 2 onions, not 1 onion listed two times on the list. 
-```{r}
-dbGetQuery(con_recipe_db, 
+```{r, results = 'asis'}
+q1 <- dbGetQuery(con_recipe_db, 
 "SELECT ingredient_name, sum(quantity), unit, store_location
 FROM ingredients_used
 LEFT JOIN  ingredients_info ON ingredients_used.ingredient_id=ingredients_info.ingredient_id
@@ -552,6 +607,8 @@ ORDER by store_location
 
 ")
 
+knitr::kable(q1)
+
 ```
 
 
@@ -559,18 +616,20 @@ ORDER by store_location
 
 I hosting a family reuion for my mother's side of the family, so I want to make some recipes from her mother, Donna Goodman. I also want to display which courses those recipes fall under, so I can see which other places I will need to round out my menu with recipes, perhaps from other Goodman family members.
 ```{r}
-dbGetQuery(con_recipe_db,"SELECT recipe_name, user_name AS creator, recipe_notes, course_desc
+q2 <- dbGetQuery(con_recipe_db,"SELECT recipe_name, user_name AS creator, recipe_notes, course_desc
                  FROM recipe_meta
                  Left join users on recipe_meta.attribution_id = users.user_id
                  LEFT JOIN courses on recipe_meta.recipe_id = courses.recipe_id
                  LEFT JOIN course_mapping ON courses.course_id = course_mapping.course_id
                  WHERE attribution_id = 4")
+
+knitr::kable(q2)
 ```
 
 
 ### Question 3
 
-My parents are coming to visit and but my vegan friend is also coming to dinner. I want to find dishes that my father has rated highly, but are also vegan friendly, so I don't have to make two separate dinners. 
+My parents are coming to visit and but my vegan friend is also coming to dinner. I want to find dishes that my father has rated highly, but are also vegan friendly, so I don't have to make two separate dinners. Currently the database doesn't have any recipes that fit this because I don't have ratings from my father yet, even when I do, this might be a difficult dinner party to prepare for!! To be continued!
 
 # Bonus: Build it!
 
