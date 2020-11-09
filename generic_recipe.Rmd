@@ -1,8 +1,11 @@
 ---
 title: "Recipe Card Generation"
-output: html_document
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
 params:
-   recipe_card: 1
+   recipe_card: 3
    version_recipe: 1
 ---
 
@@ -17,7 +20,7 @@ recipe_name <- dbGetQuery(con_recipe_db, recipe_name_query)
 ```
 # **`r recipe_name`**
 
-## Shoppings List
+## Shopping List
 
 ```{r, echo= FALSE, results= 'asis'}
 search_query_ingredients <- paste("SELECT ingredient_name, sum(quantity), unit, store_location FROM ingredients_used LEFT JOIN  ingredients_info ON ingredients_used.ingredient_id=ingredients_info.ingredient_id Where recipe_id = ", params$recipe_card, "group by ingredient_name, unit ORDER by store_location")

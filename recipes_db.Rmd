@@ -3,9 +3,11 @@ title: "Recipe Database"
 author: "Mara Alexeev"
 date: "10/8/2020"
 output:
-  prettydoc::html_pretty:
-    theme: cayman
-    highlight: github
+  rmarkdown::html_document:
+    theme: lumen
+    toc: true
+    toc_float: true
+    
 ---
 
 # Part 1: Problem Definition
@@ -618,7 +620,7 @@ I hosting a family reuion for my mother's side of the family, so I want to make 
 ```{r}
 q2 <- dbGetQuery(con_recipe_db,"SELECT recipe_name, user_name AS creator, recipe_notes, course_desc
                  FROM recipe_meta
-                 Left join users on recipe_meta.attribution_id = users.user_id
+                 LEFT JOIN users on recipe_meta.attribution_id = users.user_id
                  LEFT JOIN courses on recipe_meta.recipe_id = courses.recipe_id
                  LEFT JOIN course_mapping ON courses.course_id = course_mapping.course_id
                  WHERE attribution_id = 4")
